@@ -1,0 +1,127 @@
+---
+title: "Lýsandi tölfræði"
+---
+
+Í þessum kafla munum við fjalla um algengar lýsistærðir sem notaðar eru til að lýsa gögnum. Við munum skipta umfjölluninni upp eftir því hvort verið sé að vinna með talnabreytur eða flokkabreytur. Fyrir talnabreyturnar munum við kynnast aðferðunum `min()`, `max()`, `mean()`, `median()`, `var()`, `sd()`, `quantile()`, og `IQR()`. Þær eru teknar fyrir í hluta 4.1. Á flokkbreytur notum við skipanirnar `table()` og `prop.table` en þær eru teknar fyrir í hluta 4.2. Að lokum fjallar hluti 4.3 um aðrar gagnlegar skipanir. Þar munum við sjá aðferðirnar `round()`, `summary()` og `tapply()`.
+
+# Talnabreytur
+
+## Talnabreytur
+
+Í þessum hluta munum við skoða lýsistærðir fyrir talnabreytur. Við byrjum á að sjá hvernig við getum auðveldlega fundið hæsta og lægsta gildið sem breytan tekur en snúum okkur svo að lýsistærðum sem lýsa miðju og breytileika talnabreyta. Það er oft svo að það vantar mælingar í breytunni okkar, þá kemur `na.rm = T` stillingin að góðum notum en hana má nota í nær öllum aðferðunum sem fjallað verður um í þessum hluta.
+
+### max()
+
+::: {.callout-note}
+## Athugið
+
+**Inntak:** nafn á vigri/breytu  
+
+**Úttak:** hæsta gildi
+
+**Helstu stillingar:** na.rm
+:::
+
+Aðferðin `max()` gefur hæsta gildið. Viljum við finna hæsta gildið af 3, 4, 7 og 8 gerum við það með
+
+```{webr-r}
+max(c(3, 4, 7, 8))
+```
+
+en viljum við finna hæsta gildi ákveðinnar breytu gerum við það með að mata aðferðina með nafni breytunnar.
+
+```{webr-r}
+max(mtcars$mpg)
+```
+
+::: {.callout-tip}
+## Æfing
+
+Hvert er hæsta gildið á breytunni `wt` í `mtcars` gögnunum?
+
+```{webr-r}
+max(_$_)
+```
+:::  
+
+
+### min()
+
+Aðferðin `min()` gefur lægsta gildið. Viljum við finna lægsta gildið af 3, 4, 7 og 8 gerum við það með
+
+```{webr-r}
+min(c(3,4,7,8))
+```
+
+en viljum við finna lægsta gildi ákveðinnar breytu gerum við það með að mata aðferðina með nafni breytunnar.
+
+```{webr-r}
+min(mtcars$mpg)
+```
+
+
+## Miðja
+
+### mean()
+
+::: {.callout-note}
+## Athugið
+
+**Inntak:** nafn á vigri/breytu  
+
+**Úttak:** meðaltal
+
+**Helstu stillingar:** na.rm
+:::
+
+Aðferðin `mean()` reiknar meðaltal. Viljum við reikna meðaltal talnanna 3, 4, 7 og 8 gerum við það með:
+
+```{webr-r}
+mean(c(3, 4, 5, 8))
+```
+
+Viljum við reikna meðaltal ákveðinnar breytu gerum við það með að mata aðferðina með nafni breytunnar.
+
+```{webr-r}
+mean(mtcars$mpg)
+```
+
+::: {.callout-tip}
+## Æfing
+
+Hver er meðalþyngd bíla í gögnunum `mtcars`? Keyrið skipunina að neðan til að sjá hjálparsíðu `mtcars` gagnanna og lagið svo kóðann til að reikna meðaltalið.
+
+```{webr-r}
+help(mtcars)
+```
+:::  
+
+
+### median()
+
+::: {.callout-note}
+## Athugið
+
+**Inntak:** nafn á vigry/breyti  
+
+**Úttak:** miðgildið
+
+**Helstu stillingar:** na.rm
+:::
+
+
+Aðferðin `median()` reiknar miðgildi. Viljum við reikna miðgildi talnanna 3, 4, 7 og 8 gerum við það með
+
+```{webr-r}
+median(c(3, 4, 7, 8))
+```
+
+
+en viljum við reikna miðgildi ákveðinnar breytu gerum við það með að mata aðferðina með nafni breytunnar:
+
+```{webr-r}
+median(mtcars$mpg)
+```
+
+
+

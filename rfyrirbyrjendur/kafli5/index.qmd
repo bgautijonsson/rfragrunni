@@ -1,0 +1,121 @@
+---
+title: "Líkindafræðileg undirstaða"
+webr:
+  packages: ['ggplot2']
+---
+
+# Líkindadreifingar
+
+## Strjálar dreifingar
+
+Í þessum hluta munum við kynnast aðferðum sem tengjast strjálum líkindadreifingum. Föllin sem byrja á `d` gefa okkur massafallið (e. probability mass function) en föllin sem byrja á `p` gefa okkur dreififallið (e. probability distribution funciton).
+
+### Tvíkosta dreifing
+
+#### dbinom()
+
+::: {.callout-note}
+## Athugið
+
+**Inntak:** útkoma úr tvíkostadreifingu, stikar tvíkostadreifingarunnar  
+
+**Úttak:** líkur á útkomunni
+:::
+
+`dbinom()` aðferðin reiknar líkur á forminu þar sem X er slembistærð sem fylgir tvíkostadreifingunni. Við þurfum að mata aðferðina með þremur tölum, k, n og p þar sem k er fjöldi heppnaðra tilrauna, n er fjöldi tilrauna og p eru líkurnar á jákvæðri útkomu í hverri tilraun fyrir sig:
+
+::: {.callout-tip}
+## Æfing
+
+Hverjar eru líkurnar á að fá tvo þorska þegar krónu er kastað upp fjórum sinnum? Settu réttar tölur inn fyrir k, n og p.
+
+```{webr-r}
+dbinom(k, n, p)
+```
+:::  
+
+### pbinom
+
+::: {.callout-note}
+## Athugið
+
+**Inntak:** útkoma úr tvíkostadreifingu, stikar tvíkostadreifingarinnar  
+
+**Úttak:** líkur
+:::
+
+`pbinom()` aðferðin reiknar líkur á forminu þar sem X er slembistærð sem fylgir tvíkostadreifingunni. Við þurfum að mata aðferðina með þremur tölum, k, n og p þar sem k er fjöldi heppnaðra tilrauna, n er fjöldi tilrauna og p eru líkurnar á jákvæðri útkomu í hverri tilraun fyrir sig:
+
+::: {.callout-tip}
+## Æfing
+
+Hverjar eru líkurnar á að sjá 3 eða færri þorska þegar krónu er kastað upp 9 sinnum? Settu réttar tölur inn fyrir k, n og p.
+
+```{webr-r}
+pbinom(k, n, p)
+```
+:::  
+
+
+### Geómetrísk dreifing
+
+### Posson dreifing
+
+#### dpois()
+
+::: {.callout-note}
+## Athugið
+
+**Inntak:** útkoma úr Poisson dreifingu, stiki Poisson dreifingarinnar  
+
+**Úttak:** líkur
+:::
+
+`dpois()` aðferðin reiknar líkur á forminu þar sem X er slembistærð sem fylgir Poisson dreifingunni. Við þurfum að mata aðferðina með tveimur tölum, k og $\lambda$ þar sem k er fjöldi heppnaðra tilrauna og $\lambda$ er væntigildi slembistærðarinnar X:
+
+::: {.callout-tip}
+## Æfing
+
+Hverjar eru líkurnar á að 3 kúnnar komi á kassann í Krónunni á einni mínútu, þar sem meðalfjöldi kúnna á mínútu er 1.5? Settu réttar tölur inn fyrir k og $\lambda$
+
+```{webr-r}
+dpois(k, lambda)
+```
+:::  
+
+#### ppois()
+
+::: {.callout-note}
+## Athugið
+
+**Inntak:** útkoma úr Poisson dreifingu, stikar Poisson dreifingarinnar  
+
+**Úttak:** líkur
+:::
+
+`ppois()` aðferðin reiknar líkur á forminu $P(X < k)$ þar sem X er slembistærð sem fylgir Poisson dreifingunni. Við þurfum að mata aðferðina með tveimur tölum, k og $\lambda$ þar sem k er fjöldi heppnaðra tilrauna og $\lambda$ er væntigildi slembistærðarinnar X.
+
+::: {.callout-tip}
+## Æfing
+
+Hverjar eru líkurnar á að 10 eða færri bílar keyra framhjá leikskóla á einni klukkustund þegar meðalfjöldu bíla á klukkustund er 7? Settu réttar tölur inn fyrir k og $\lambda$
+
+```{webr-r}
+ppois(k, lambda)
+```
+:::  
+
+
+## Samfelldar dreifingar
+
+
+
+### Normaldreifing
+
+### Veldisvísisdreifing
+
+### Gammadreifing
+
+### Betadreifing
+
+

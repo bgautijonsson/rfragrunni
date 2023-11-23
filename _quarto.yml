@@ -10,19 +10,19 @@ website:
   sidebar:
     logo: "https://www.hi.is/sites/default/files/styles/vi_hengi_-_tenglar/public/ame18/hilogo.png?itok=9UgaDOcd"
     contents:
-      - section: "Bókin"
+      - section: "R frá grunni"
         contents:
-          - kaflar/kafli1/index.qmd
-          - kaflar/kafli2/index.qmd
-          - kaflar/kafli3/index.qmd
-          - kaflar/kafli4/index.qmd
-          - kaflar/kafli5/index.qmd
-          - kaflar/kafli6/index.qmd
-          - kaflar/kafli7/index.qmd
-          - kaflar/kafli8/index.qmd
-          - kaflar/kafli9/index.qmd
-          - kaflar/kafli10/index.qmd
-          - kaflar/kafli11/index.qmd
+          - rfyrirbyrjendur/kafli1/index.qmd
+          - rfyrirbyrjendur/kafli2/index.qmd
+          - rfyrirbyrjendur/kafli3/index.qmd
+          - rfyrirbyrjendur/kafli4/index.qmd
+          - rfyrirbyrjendur/kafli5/index.qmd
+          - rfyrirbyrjendur/kafli6/index.qmd
+          - rfyrirbyrjendur/kafli7/index.qmd
+          - rfyrirbyrjendur/kafli8/index.qmd
+          - rfyrirbyrjendur/kafli9/index.qmd
+          - rfyrirbyrjendur/kafli10/index.qmd
+          - rfyrirbyrjendur/kafli11/index.qmd
 
 format: 
   html:
@@ -49,6 +49,9 @@ author:
   - name: Bjarki Þór Elvarsson
     email: bjarki.elvarsson@hafogvatn.is
     affiliation: Hafrannsóknarstofnun
+  - name: Brynjólfur Gauti Guðrúnar Jónsson
+    email: brynjolfur@hi.is
+    affiliation: Háskóli Íslands
     
     
     
