@@ -5,9 +5,10 @@ project:
     port: 4200
     
     
+    
 website:
-  title: "R frá grunni"
   sidebar:
+    logo: "https://www.hi.is/sites/default/files/styles/vi_hengi_-_tenglar/public/ame18/hilogo.png?itok=9UgaDOcd"
     contents:
       - section: "Bókin"
         contents:
@@ -30,7 +31,18 @@ format:
       freeze: auto
       warning: false
       message: false
+webr:
+  - channel-type: "post-message"
 filters: 
   - webr
+title-block-banner: false
 
 editor: source
+
+author: 
+  - name: Anna Helga Jónsdóttir
+    email: ahj@hi.is
+  - name: Sigrún Helga Lund
+    email: sigrunhl@hi.is
+  - name: Bjarki Þór Elvarsson
+    email: bjarki.elvarsson@hafogvatn.is

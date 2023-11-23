@@ -2,10 +2,139 @@
 title: "Frá tilraun til gagna"
 ---
 
-This is a Quarto website.
+Mörg verk þarf að vinna frá því að niðurstöðum rannsóknar hefur verið safnað þar til að hægt er að framkvæma tölfræðiúrvinnslu á þeim niðurstöðum. Í þessum kafla verður gengið í gegnum þau helstu skref sem þarf að stíga á þeirri leið.
 
-To learn more about Quarto websites visit <https://quarto.org/docs/websites>.
+Við hefjum umfjöllunina á góðum ráðleggingum varðandi innslátt og skráningu gagnanna, sem er efni kafla 2.1. Í kafla 2.2 sýnum við hvernig gögnin eru lesin inn í R, með aðstoð skipunarinnar `read.table()`. Einnig sýnum við nokkrar handhægar skipanir til að búa til mælingar, þær eru `c()`, `rep()` og `seq()`.
 
-```{r}
-1 + 1
+Eftir að gögn hafa verið lesið inn er mikilvægt að fá gróft yfirlit yfir gögnin til að tryggja að innlesturinn hafi gengið sem skildi. Til þess notum við skipanirnar `View()`, `names()`, `head()`, `str()`, `length()` og `dim()` sem við sjáum í kafla 2.2.
+
+Mikilvægt atriði í meðhöndlun gagna er meðhöndlun mælinga sem vantar í gagnasafnið. Það er umfjöllunarefni kafla 2.4 þar sem við kynnumst skipununum `is.na()` og `na.omit()`. Í kafla 2.5 sjáum við svo leiðir til að velja tilteknar línur úr gagnatöflunni. Til þess notum við skipanirnar `slice()`, `filter()`, `which()` og `grep()`.
+
+Í kafla 2.6 sýnum við handhægar skipanir til að koma breytunum okkar á það form sem við viljum vinna með, þ.e.a.s. kóða þær. Mesta púðrið fer yfirleitt í að kóða flokkabreytur en einnig lýsum við því beita má vörpunum á talnabreytur og dagsetningar eru meðhöndlaðar. Þar koma við sögu skipanirnar `factor()`, `levels()`, `cut()`, `as.Date()` og `rename()`.
+
+Síðast en ekki síst fjallar kafli 2.7 um handhægar leiðir til að umraða og umbreyta gagnatöflum. Skipunin `select()` hjálpar okkur að búa til minni gagnatöflur með færri breytum. Skipanirnar sort() og arrange() gera okkur kleift að raða gildum eftir línum og dálkum á meðan skipanirnar `spread()` og `gather()` varpað úr löngu sniði í vítt og öfugt. Að lokum gerir skipunin `merge()` okkur kleift að sameina tvær eða fleiri gagnatöflur.
+
+# Skráning gagna
+
+Fyrsta ráðleggingin sem við viljum gefa varðandi skráningu gagna er að gæta þess að geyma ætíð frumeintak af mælingunum í annarri skrá áður en þið hefjist handa við nokkra úrvinnslu, þar á meðal að undirbúa lestur gagnanna inn í R. Bæði viljum við ekki eiga á hættu á að gera einhverjar óafturkræfar breytingar á mælingunum og eins gætum við viljað skrá hjá okkur ýmsar upplýsingar sem við notum ekki beint í tölfræðiúrvinnslunni en gætum viljað kanna síðar meir.
+
+Gögn eru oftar en ekki skráð í einhvers konar töflureikni, til dæmis Excel, Numbers, LibreOffice eða Google Sheets, og miðum við umfjöllun kaflans við það. Við gerum ráð fyrir að við mælum margar breytur en höfum eingöngu eina mælingu á hverri breytu fyrir hvert viðfangsefni. Séu fleiri en ein mæling framkvæmd á hverju viðfangsefni þarf að velja á hvaða gagnasniði gögnin eru. Við ræðum slíkt stuttlega í kafla 2.7.
+
+Eftirfarandi gátlisti spannar það helsta sem þarf að hafa í huga við skráningu gagna í töflureikni:
+
+1.* *Hefur hver breyta sinn dálk og hvert viðfangsefni sína línu?** Gætið þess að allar mælingar á sama viðfangsefni séu í einni og sömu línunni og að allar mælingar á sömu breytu séu í einum og sama dálkinum.
+
+2. **Eru nokkrar óþarfa línur?** Skráin á að halda gagnatöfluna eina og ekkert annað. Efsta línan á að geyma nöfnin á breytunum, þar fyrir neðan koma mælingarnar á viðfangsefnunum. Ekkert annað á að vera í skránni.
+
+3. **Inniheldur skráin séríslenska stafi?** Séríslenskir stafir, svo sem þ, ð og æ, geta oft valdið usla þegar gögn eru flutt á milli tölva. Því borgar sig að forðast alla séríslenska stafi, hvort sem heldur í breytuheitum eða þeim gildum sem mælingarnar taka. Ritið þannig breytuna `hæð``heldur sem breytuna `haed` svo dæmi sé nefnt. Ef þið skráið ekki gögnin sjálf heldur fáið í hendur gögn sem innihalda séríslenska stafi þá má þó prófa að notast við skrána með séríslensku stöfunum og skipta þeim ekki út fyrr en við höfum séð að þeir valdi vandræðum.
+
+4. **Eru nokkur bil?** Það getur að sama skapi valdið vandræðum þegar breytuheiti eða gildi mælinga eru skráð með tveimur eða fleiri orðum. Það er hægt að komast hjá því með því að annað hvort leika sér með hástafi og lágstafi eða nota _ táknið. Þannig væri hægt að skrá breytuna fyrsta koma sem annað hvort sem `fyrstaKoma` eða `fyrsta_koma` til dæmis.
+
+5. **Eru sömu útkomurnar skráðar á sama hátt?** Við þurfum alltaf að gæta þess að skilgreina nákvæmlega hvaða útkomur breyturnar okkar geta tekið og að skrá sömu útkomurnar á sama hátt. Að `ja` sé ekki stundum skráð sem `Ja` eða jafnvel `ju`. Stundum þvælast óþarfa auð tákn með í útkomuna sem valda vandræðum seinna meir. Oft getur borgað sig að kóða útkomurnar heldur með tölustöfum heldur en orðum.
+
+6. **Hefur hver breyta sitt nafn?** Pössum að engar tvær breytur hafi sama nafnið. Að það séu til dæmis ekki tveir dálkar sem bera heitið `numer`. Gætið þess að hafa breytuheiti lýsandi án þess að vera of löng.
+
+7. **Er fullt samræmi í því hvernig tölur eru skráðar?** Er „þrír komma fjórir“ ritað sem 3,4 eða 3.4 eða kannski beggja blands hér og þar í skjalinu?
+
+8. **Eru nokkrir punktar sem gætu valið misskilningi?** Notum eingöngu punkta til að aðgreina á milli heiltöluhluta og aukastafa en ekki til að gera þúsund og milljónir læsilegri. Á Íslandi er stærðin 3482 oft rituð sem 3.482 en fáum við eingöngu töluna 3.482 gefna er ekki ljóst hvort hún eigi við töluna „þrjú þúsund fjögur hundruð áttatíu og tveir“ eða „þrír komma fjórir átta tveir“.
+
+
+Þegar við höfum gengið úr skugga um ofangreind atriði er tímabært að vista gögnin á forminu .csv. Nær allir ritlar geta vistað skrár á þessu formi. Þá þurfum við oftast að fara í `File`, `Save as` og velja svo `comma seperated value`, `text csv` eða eitthvað álíka eftir því hvert forritið er. Þessa .csv skrá köllum við *gagnaskrá*.
+
+Oft koma einhverjir valmöguleikar upp með það hvernig breytur séu aðgreindar frá dálki til dálks. Við mælum með því að nota annað hvort `tab` eða `semikommur` en alls ekki kommur því þær gætu einnig verið notaðar til að aðgreina heiltöluhluta og tugabrot.
+
+Flest forrit á Íslandi nota kommur til að aðgreina heiltöluhluta og tölustafi en R aðgreinir með punkti. Séu heiltöluhlutar og tugabrot aðskilin með kommu í .csv skránni okkar þurfum við að fara aðra af tveimur leiðum:
+
+1. Gefa R til kynna að kommur séu notaðar til að aðgreina milli heiltöluhluta og tugabrota. Það er stillingaratriði í aðferðinni `read.table()` sem við kynnumst hér að neðan.
+2. Opna .csv skrána í einföldum ritli eins og `Notepad` eða `TextEdit`. Fara svo yfir skjalið með `find` og `replace` og skipta öllum kommum út fyrir punkta. Gætið þess að vista skrána aftur á forminu .csv. Stundum er hægt að gera þetta beint í Excel eða Open Office.
+
+Fyrst um sinn er einfaldast og þægilegast að vista gagnaskrárnar í sömu möppu og við geymum skipanaskrárnar. R gerir að vísu enga kröfu um það, R getur náð í skrár hvaðan sem er af tölvunni (við þurfum bara að vísa á réttan stað), en það einfaldar ykkur úrvinnslu þegar verkefnin eru ekki mjög stór og gagnasöfnin sem við vinnum með eru ekki mörg. Séum við hins vegar að vinna stærri verkefni með nokkrum gagnasöfnum borgar sig að hafa sérstaka undirmöppu sem geymir einvörðungu gögnin.
+
+Nú fyrst er tímabært að lesa gögnin inn í R.
+
+# Innlestur gagna
+
+## Innlestur gagna
+
+### read.table()
+
+::: {.callout-note}
+## Athugið
+
+**Inntak:** nafn á gagnaskrá  
+
+**Úttak:** gagnatafla
+
+**Helstu stillingar:** header, sep, dec, na.strings, stringsAsFactors 
+:::
+
+Á síðu bókarinnar má finna gagnaskrána `pulsAll.csv`. Byrjið á því að vista hana í vinnumöppunni ykkar, þ.e.a.s. sömu möppu og þið geymið skipanaskrána ykkar. Þá má lesa þau inn í R með skipuninni:
+
+```{webr-r}
+#| context: setup
+
+download.file(
+  "https://ahj.hi.is/pulsAll.csv",
+  "pulsAll.csv"
+)
 ```
+
+
+```{webr-r}
+puls <- read.table("pulsAll.csv", header = TRUE, sep = ";")
+```
+
+Fyrst tilgreinum við nafnið á skránni: `pulsAll.csv`. Þar á eftir gefum við ýmis konar stillingar, aðgreindar með kommum.
+
+Þær stillingar sem við komum oft til með að nota eru:
+
+* `header=TRUE`: Að breytuheiti séu í efstu línu gagnaskráarinnar.
+* `sep=”;”`: Dálkar/breytur eru aðgreindir með semikommu. Séu dálkar t.d. aðgreindir með tab skiptum við `sep=”;”` út fyrir `sep=”\t”`.
+* `dec=”,”`: Ef tugabrot og heiltöluhlutar eru aðgreind með kommu í stað punkts þarf að nota þessa stillingu.
+* `na.strings`: Tilgreinir hvaða tákn á að líta á sem vantaðar mælingar (t.d. 999, NA osfrv).
+* `stringsAsFActors`: Tilgreinir að strengjabreytur eigi ekki að vista sem flokkabreytur.
+
+Um leið og við gefum skipunina höfum við lesið inn gögnin okkar og vistað sem gagnatöflu undir heitinu `puls`. Við hefðum getað gefið töflunni hvaða heiti sem við viljum, hún hefði allt eins geta heitið `gogn`, `tilraun1` eða hvað annað sem okkur dettur í hug. Það eina sem ekki má er að láta nöfn byrja á tölustaf. Það væri því ekki í lagi að gefa töflunni heitið `1tilraun`.
+
+Ef við sláum
+
+```{webr-r}
+puls
+```
+
+inn í keyrslugluggann birtist svo öll taflan. Gætið ykkar að ef gagnataflan er mjög stór fyllir hún fljótt marga skjái svo þetta er ekki góð leið til að fá yfirlit yfir gögnin. Betra er að nota skipanirnar s.s. `head()` og `str()` sem við fjöllum um hér fyrir neðan.
+
+Þegar við höfum lesið gögn inn sem töflu getum við hæglega „dregið“ eina og eina breytu út úr töflunni, skoðað nánar og jafnvel breytt. Viljum við t.d. ná í breytuna `haed` úr gagnatöflunni puls gerum við það með:
+
+```{webr-r}
+puls$haed
+```
+
+
+### c()
+
+::: {.callout-note}
+## Athugið
+
+**Inntak:** gildi vigurs  
+
+**Úttak:** vigur
+:::
+
+Þegar við vinnum með lítil gagnasöfn eða fáar mælingar getur oft verið hentugt að skrá þær beint inn í R, í stað þess að lesa gögnin úr .csv skrá. Til þess höfum við skipunina `c()`. Þannig býr skipunin
+
+```{webr-r}
+postnumer <- c(170,107,110, 101,105,107,111,108,104,101)
+```
+
+til vigurinn `postnumer` sem inniheldur 10 mælingar á póstnúmerum. Röðun póstnúmera í vigrinum er í þeirri röð sem þær eru slegnar:
+
+
+```{webr-r}
+postnumer
+```
+
+
+
+
+

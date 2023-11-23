@@ -1,5 +1,8 @@
 ---
-title: "R frá grunni, Háskóli Íslands"
+title: "R frá grunni"
 ---
 
+
 Þetta er tilraun til að yfirfæra bókina R frá grunni yfir í Quarto og prófa að nota webR til að gera gagnvirka kóðabúta inni í kennsluefninu.
+
+Upphaflega útgáfu af bókinni má finna á [https://edbook.hi.is/R_fra_grunni/#](https://edbook.hi.is/R_fra_grunni/#).

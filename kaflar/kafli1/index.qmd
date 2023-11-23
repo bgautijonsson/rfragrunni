@@ -174,3 +174,5 @@ Hjálpin í R fylgir eftirfarandi sniðmáti:
 * Í `References`: eru heimildir sem aðferðin byggir á.
 * Oft reynast góðir molar í `See Also`:. Þar eru oft dæmi um aðrar skyldar aðferðir sem gætu reynst gagnlegar sem og heimasíður og fleira sem gæti komið að góðum notum.
 * Að lokum má sjá dæmi um beitingu aðferðinnar í `Examples`:. Verið óspör að prófa þau dæmi til að kynnast aðferðinni betur.
+
+

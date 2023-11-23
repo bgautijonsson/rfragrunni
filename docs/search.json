@@ -51,6 +51,17 @@
     ]
   },
   {
+    "objectID": "kaflar/kafli1/index.html#aðferðirskipanirföll-1",
+    "href": "kaflar/kafli1/index.html#aðferðirskipanirföll-1",
+    "title": "Inngangur",
+    "section": "Aðferðir/skipanir/föll",
+    "text": "Aðferðir/skipanir/föll\n\nhelp()\n\n\n\n\n\n\nAthugið\n\n\n\nInntak: Nafn á falli\nÚttak: Kallar fram hjálparsíðuna fyrir fallið\nHelstu stillingar: package, help_type\n\n\nR hefur, eins og áður sagði, fjölda innbyggðra falla sem auðvelda notandanum að vinna með gögn auk þess sem auðvelt er fyrir notandann að smíða sín eigin föll. Til þess að fá yfirsýn yfir þessi innbyggðu föll hefur R innbyggða hjálp sem gefur okkur nánari upplýsingar um þá skipun/aðferð/fall sem við viljum fræðast meira um. Þannig gefur skipunin\n\n  🟡 Loading\n    webR...\n  \n    \n    \n      \n    \n  \n  \n  \n\n\nokkur nánari upplýsingar um skipunina read.table(). Nánari upplýsingar birtast þá í nýjum glugga á skjánum. Látið útlit hjálparinnar ekki fæla ykkur frá. Það er vissulega hrátt og gæti virst óskiljanlegt í fyrstu en læri maður að líta á úttakið réttum augum má finna þar miklar upplýsingar á fljótlegan hátt.\nHjálpin í R fylgir eftirfarandi sniðmáti:\n\nEfst, undir Description:, kemur stutt lýsing á skipuninni.\nÞar á eftir kemur Usage: en þar sjást allar þær stillingar sem hægt er að gefa skipuninni. Yfirleitt eru flestar stillingarnar sjálfgefnar sem þýðir að ef við tilgreinum ekkert eru stillingarnar sjálfkrafa stilltar á algengustu gildin. Viljum við breyta einhverjum af stillingunum, þá tilgreinum við eingöngu þær stillingar sem við viljum breyta og hvaða gildi við viljum að séu á þeim stillingum.\nNæst er komið að Arguments:. Þar eru allar mögulegar stillingar sýndar, hvaða gildi er hægt að gefa þeim og hvaða áhrif það hefur.\nDetails: gefur ítarlega lýsingu á þeirri „vinnu“ sem skipunin framkvæmir.\nValue: útskýrir hvers lags útkoma kemur út úr skipuninni.\nUndir Note: má finna ýmsar gagnlegar ábendingar.\nÍ References: eru heimildir sem aðferðin byggir á.\nOft reynast góðir molar í See Also:. Þar eru oft dæmi um aðrar skyldar aðferðir sem gætu reynst gagnlegar sem og heimasíður og fleira sem gæti komið að góðum notum.\nAð lokum má sjá dæmi um beitingu aðferðinnar í Examples:. Verið óspör að prófa þau dæmi til að kynnast aðferðinni betur.",
+    "crumbs": [
+      "Bókin",
+      "Inngangur"
+    ]
+  },
+  {
     "objectID": "kaflar/kafli9/index.html",
     "href": "kaflar/kafli9/index.html",
     "title": "Einþátta fervikagreining",
@@ -110,7 +121,18 @@
     "href": "kaflar/kafli2/index.html",
     "title": "Frá tilraun til gagna",
     "section": "",
-    "text": "This is a Quarto website.\nTo learn more about Quarto websites visit https://quarto.org/docs/websites.\n\n1 + 1\n\n[1] 2",
+    "text": "Mörg verk þarf að vinna frá því að niðurstöðum rannsóknar hefur verið safnað þar til að hægt er að framkvæma tölfræðiúrvinnslu á þeim niðurstöðum. Í þessum kafla verður gengið í gegnum þau helstu skref sem þarf að stíga á þeirri leið.\nVið hefjum umfjöllunina á góðum ráðleggingum varðandi innslátt og skráningu gagnanna, sem er efni kafla 2.1. Í kafla 2.2 sýnum við hvernig gögnin eru lesin inn í R, með aðstoð skipunarinnar read.table(). Einnig sýnum við nokkrar handhægar skipanir til að búa til mælingar, þær eru c(), rep() og seq().\nEftir að gögn hafa verið lesið inn er mikilvægt að fá gróft yfirlit yfir gögnin til að tryggja að innlesturinn hafi gengið sem skildi. Til þess notum við skipanirnar View(), names(), head(), str(), length() og dim() sem við sjáum í kafla 2.2.\nMikilvægt atriði í meðhöndlun gagna er meðhöndlun mælinga sem vantar í gagnasafnið. Það er umfjöllunarefni kafla 2.4 þar sem við kynnumst skipununum is.na() og na.omit(). Í kafla 2.5 sjáum við svo leiðir til að velja tilteknar línur úr gagnatöflunni. Til þess notum við skipanirnar slice(), filter(), which() og grep().\nÍ kafla 2.6 sýnum við handhægar skipanir til að koma breytunum okkar á það form sem við viljum vinna með, þ.e.a.s. kóða þær. Mesta púðrið fer yfirleitt í að kóða flokkabreytur en einnig lýsum við því beita má vörpunum á talnabreytur og dagsetningar eru meðhöndlaðar. Þar koma við sögu skipanirnar factor(), levels(), cut(), as.Date() og rename().\nSíðast en ekki síst fjallar kafli 2.7 um handhægar leiðir til að umraða og umbreyta gagnatöflum. Skipunin select() hjálpar okkur að búa til minni gagnatöflur með færri breytum. Skipanirnar sort() og arrange() gera okkur kleift að raða gildum eftir línum og dálkum á meðan skipanirnar spread() og gather() varpað úr löngu sniði í vítt og öfugt. Að lokum gerir skipunin merge() okkur kleift að sameina tvær eða fleiri gagnatöflur.",
+    "crumbs": [
+      "Bókin",
+      "Frá tilraun til gagna"
+    ]
+  },
+  {
+    "objectID": "kaflar/kafli2/index.html#innlestur-gagna-1",
+    "href": "kaflar/kafli2/index.html#innlestur-gagna-1",
+    "title": "Frá tilraun til gagna",
+    "section": "Innlestur gagna",
+    "text": "Innlestur gagna\n\nread.table()\n\n\n\n\n\n\nAthugið\n\n\n\nInntak: nafn á gagnaskrá\nÚttak: gagnatafla\nHelstu stillingar: header, sep, dec, na.strings, stringsAsFactors\n\n\nÁ síðu bókarinnar má finna gagnaskrána pulsAll.csv. Byrjið á því að vista hana í vinnumöppunni ykkar, þ.e.a.s. sömu möppu og þið geymið skipanaskrána ykkar. Þá má lesa þau inn í R með skipuninni:\n\t\n\n  🟡 Loading\n    webR...\n  \n    \n    \n      \n    \n  \n  \n  \n\n\nFyrst tilgreinum við nafnið á skránni: pulsAll.csv. Þar á eftir gefum við ýmis konar stillingar, aðgreindar með kommum.\nÞær stillingar sem við komum oft til með að nota eru:\n\nheader=TRUE: Að breytuheiti séu í efstu línu gagnaskráarinnar.\nsep=”;”: Dálkar/breytur eru aðgreindir með semikommu. Séu dálkar t.d. aðgreindir með tab skiptum við sep=”;” út fyrir sep=”\\t”.\ndec=”,”: Ef tugabrot og heiltöluhlutar eru aðgreind með kommu í stað punkts þarf að nota þessa stillingu.\nna.strings: Tilgreinir hvaða tákn á að líta á sem vantaðar mælingar (t.d. 999, NA osfrv).\nstringsAsFActors: Tilgreinir að strengjabreytur eigi ekki að vista sem flokkabreytur.\n\nUm leið og við gefum skipunina höfum við lesið inn gögnin okkar og vistað sem gagnatöflu undir heitinu puls. Við hefðum getað gefið töflunni hvaða heiti sem við viljum, hún hefði allt eins geta heitið gogn, tilraun1 eða hvað annað sem okkur dettur í hug. Það eina sem ekki má er að láta nöfn byrja á tölustaf. Það væri því ekki í lagi að gefa töflunni heitið 1tilraun.\nEf við sláum\n\n  🟡 Loading\n    webR...\n  \n    \n    \n      \n    \n  \n  \n  \n\n\ninn í keyrslugluggann birtist svo öll taflan. Gætið ykkar að ef gagnataflan er mjög stór fyllir hún fljótt marga skjái svo þetta er ekki góð leið til að fá yfirlit yfir gögnin. Betra er að nota skipanirnar s.s. head() og str() sem við fjöllum um hér fyrir neðan.\nÞegar við höfum lesið gögn inn sem töflu getum við hæglega „dregið“ eina og eina breytu út úr töflunni, skoðað nánar og jafnvel breytt. Viljum við t.d. ná í breytuna haed úr gagnatöflunni puls gerum við það með:\n\n  🟡 Loading\n    webR...\n  \n    \n    \n      \n    \n  \n  \n  \n\n\n\n\nc()\n\n\n\n\n\n\nAthugið\n\n\n\nInntak: gildi vigurs\nÚttak: vigur\n\n\nÞegar við vinnum með lítil gagnasöfn eða fáar mælingar getur oft verið hentugt að skrá þær beint inn í R, í stað þess að lesa gögnin úr .csv skrá. Til þess höfum við skipunina c(). Þannig býr skipunin\n\n  🟡 Loading\n    webR...\n  \n    \n    \n      \n    \n  \n  \n  \n\n\ntil vigurinn postnumer sem inniheldur 10 mælingar á póstnúmerum. Röðun póstnúmera í vigrinum er í þeirri röð sem þær eru slegnar:\n\n  🟡 Loading\n    webR...",
     "crumbs": [
       "Bókin",
       "Frá tilraun til gagna"
@@ -152,19 +174,8 @@
   {
     "objectID": "index.html",
     "href": "index.html",
-    "title": "R frá grunni, Háskóli Íslands",
+    "title": "R frá grunni",
     "section": "",
-    "text": "Þetta er tilraun til að yfirfæra bókina R frá grunni yfir í Quarto og prófa að nota webR til að gera gagnvirka kóðabúta inni í kennsluefninu."
-  },
-  {
-    "objectID": "kaflar/kafli1/index.html#aðferðirskipanirföll-1",
-    "href": "kaflar/kafli1/index.html#aðferðirskipanirföll-1",
-    "title": "Inngangur",
-    "section": "Aðferðir/skipanir/föll",
-    "text": "Aðferðir/skipanir/föll\n\nhelp()\n\n\n\n\n\n\nAthugið\n\n\n\nInntak: Nafn á falli\nÚttak: Kallar fram hjálparsíðuna fyrir fallið\nHelstu stillingar: package, help_type\n\n\nR hefur, eins og áður sagði, fjölda innbyggðra falla sem auðvelda notandanum að vinna með gögn auk þess sem auðvelt er fyrir notandann að smíða sín eigin föll. Til þess að fá yfirsýn yfir þessi innbyggðu föll hefur R innbyggða hjálp sem gefur okkur nánari upplýsingar um þá skipun/aðferð/fall sem við viljum fræðast meira um. Þannig gefur skipunin\n\n  🟡 Loading\n    webR...\n  \n    \n    \n      \n    \n  \n  \n  \n\n\nokkur nánari upplýsingar um skipunina read.table(). Nánari upplýsingar birtast þá í nýjum glugga á skjánum. Látið útlit hjálparinnar ekki fæla ykkur frá. Það er vissulega hrátt og gæti virst óskiljanlegt í fyrstu en læri maður að líta á úttakið réttum augum má finna þar miklar upplýsingar á fljótlegan hátt.\nHjálpin í R fylgir eftirfarandi sniðmáti:\n\nEfst, undir Description:, kemur stutt lýsing á skipuninni.\nÞar á eftir kemur Usage: en þar sjást allar þær stillingar sem hægt er að gefa skipuninni. Yfirleitt eru flestar stillingarnar sjálfgefnar sem þýðir að ef við tilgreinum ekkert eru stillingarnar sjálfkrafa stilltar á algengustu gildin. Viljum við breyta einhverjum af stillingunum, þá tilgreinum við eingöngu þær stillingar sem við viljum breyta og hvaða gildi við viljum að séu á þeim stillingum.\nNæst er komið að Arguments:. Þar eru allar mögulegar stillingar sýndar, hvaða gildi er hægt að gefa þeim og hvaða áhrif það hefur.\nDetails: gefur ítarlega lýsingu á þeirri „vinnu“ sem skipunin framkvæmir.\nValue: útskýrir hvers lags útkoma kemur út úr skipuninni.\nUndir Note: má finna ýmsar gagnlegar ábendingar.\nÍ References: eru heimildir sem aðferðin byggir á.\nOft reynast góðir molar í See Also:. Þar eru oft dæmi um aðrar skyldar aðferðir sem gætu reynst gagnlegar sem og heimasíður og fleira sem gæti komið að góðum notum.\nAð lokum má sjá dæmi um beitingu aðferðinnar í Examples:. Verið óspör að prófa þau dæmi til að kynnast aðferðinni betur.",
-    "crumbs": [
-      "Bókin",
-      "Inngangur"
-    ]
+    "text": "Þetta er tilraun til að yfirfæra bókina R frá grunni yfir í Quarto og prófa að nota webR til að gera gagnvirka kóðabúta inni í kennsluefninu.\nUpphaflega útgáfu af bókinni má finna á https://edbook.hi.is/R_fra_grunni/#."
   }
 ]
