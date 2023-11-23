@@ -1,7 +1,7 @@
 ---
 title: "Líkindafræðileg undirstaða"
 webr:
-  packages: ['ggplot2']
+  packages: ['ggplot2', 'patchwork']
 ---
 
 # Líkindadreifingar
@@ -11,6 +11,76 @@ webr:
 Í þessum hluta munum við kynnast aðferðum sem tengjast strjálum líkindadreifingum. Föllin sem byrja á `d` gefa okkur massafallið (e. probability mass function) en föllin sem byrja á `p` gefa okkur dreififallið (e. probability distribution funciton).
 
 ### Tvíkosta dreifing
+
+```{webr-r}
+#| context: setup
+
+plot_binom <- function(k, n, p) {
+  
+  if (k > n) {
+    return("k getur aldrei verið stærri en n (getur ekki kastað krónu 10 sinnum og fengið 15 þorska)")
+  }
+  
+  x <- seq(0, ceiling(n / prob))
+  y1 <- dbinom(x, size = n, prob = prob)
+  keep <- y1 > 1e-5
+  y1 <- y1[keep]
+  x <- x[keep]
+  
+  y2 <- pbinom(x, size = n, prob = prob)
+  
+  p1 <- ggplot() +
+    geom_col(aes(x = x, y = y1, fill = (x == k)), show.legend = FALSE) +
+    scale_fill_brewer(palette = "Greys") +
+    theme_classic() +
+    theme(
+      axis.text.y = element_blank(),
+      axis.ticks.y = element_blank(),
+      axis.line.y = element_blank(),
+      axis.title.y = element_blank()
+    ) +
+    coord_cartesian(expand = FALSE) +
+    labs(
+      title = "Notkun á dbinom(k, n, p)",
+      subtitle = "Líkurnar á að X sé jafnt og k",
+      x = "X"
+    )
+  
+  
+  p2 <- ggplot() +
+    geom_col(aes(x = x, y = y2, fill = (x <= k)), show.legend = FALSE) +
+    scale_fill_brewer(palette = "Greys") +
+    theme_classic() +
+    theme(
+      axis.text.y = element_blank(),
+      axis.ticks.y = element_blank(),
+      axis.line.y = element_blank(),
+      axis.title.y = element_blank()
+    ) +
+    coord_cartesian(expand = FALSE) +
+    labs(
+      title = "notkun á pbinom(k, n, p)",
+      subtitle = "Líkurnar á að X sé minna eða jafnt og k",
+      x = "X"
+    )
+  
+  p1 + p2 +
+    plot_annotation(
+      title = "Samanburður á hvernig við notum dbinom() og pbinom()"
+    )
+}
+```
+
+Keyrðu kóðann að neðan til að sjá dæmi um tvíkostadreifingu. Prófaðu að breyta tölunum k, n og p til að fá mismunandi útgáfur af myndinni.
+
+```{webr-r}
+k <- 40
+n <- 100
+prob <- 0.3
+
+plot_binom(k, n, p)
+```
+
 
 #### dbinom()
 
