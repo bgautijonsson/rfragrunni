@@ -126,10 +126,75 @@ pbinom(k, n, p)
 ```
 :::  
 
-
-### Geómetrísk dreifing
-
 ### Posson dreifing
+
+```{webr-r}
+#| context: setup
+
+teikna_poisson <- function(k, lambda) {
+  
+  x <- seq(0, pmax(qpois(0.999999, lambda), k))
+  y1 <- dpois(x, lambda = lambda)
+  keep <- y1 > 1e-5
+  y1 <- y1[keep]
+  x <- x[keep]
+  
+  y2 <- ppois(x, lambda = lambda)
+  
+  p1 <- ggplot() +
+    geom_col(aes(x = x, y = y1, fill = (x == k)), show.legend = FALSE) +
+    scale_x_continuous(
+      breaks = unique(floor(pretty(x)))
+    ) +
+    scale_fill_brewer(palette = "Greys") +
+    theme_classic() +
+    theme(
+      axis.text.y = element_blank(),
+      axis.ticks.y = element_blank(),
+      axis.line.y = element_blank(),
+      axis.title.y = element_blank()
+    ) +
+    coord_cartesian(expand = FALSE) +
+    labs(
+      title = "Notkun á dpois(k, n, p)",
+      subtitle = "Líkurnar á að X sé jafnt og k",
+      x = "X"
+    )
+  
+  
+  p2 <- ggplot() +
+    geom_col(aes(x = x, y = y2, fill = (x <= k)), show.legend = FALSE) +
+    scale_x_continuous(
+      breaks = unique(floor(pretty(x)))
+    ) +
+    scale_fill_brewer(palette = "Greys") +
+    theme_classic() +
+    theme(
+      axis.text.y = element_blank(),
+      axis.ticks.y = element_blank(),
+      axis.line.y = element_blank(),
+      axis.title.y = element_blank()
+    ) +
+    coord_cartesian(expand = FALSE) +
+    labs(
+      title = "notkun á ppois(k, n, p)",
+      subtitle = "Líkurnar á að X sé minna eða jafnt og k",
+      x = "X"
+    )
+  
+  p1 + p2 +
+    plot_annotation(
+      title = "Samanburður á hvernig við notum dpois() og ppois()"
+    )
+}
+```
+
+```{webr-r}
+k <- 7
+lambda <- 4
+
+teikna_poisson(k, lambda)
+```
 
 #### dpois()
 
