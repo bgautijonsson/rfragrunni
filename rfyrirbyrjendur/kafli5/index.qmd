@@ -71,7 +71,7 @@ teikna_tvikosta <- function(k, n, p) {
 }
 ```
 
-Keyrðu kóðann að neðan til að sjá dæmi um tvíkostadreifingu. Prófaðu að breyta tölunum k, n og p til að fá mismunandi útgáfur af myndinni.
+Hér munum við kynnast aðferðunum `dbinom()` og `pbinom()`. Keyrðu kóðann að neðan til að sjá dæmi um tvíkostadreifingu. Lestu svo um `dbinom()` og `pbinom()` og athugaðu svo hvort þú skiljir hvað er að gerast á bak við tjöldin þegar þú prófar að breyta tölunum k, n og p til að fá mismunandi útgáfur af myndinni.
 
 ```{webr-r}
 k <- 40
