@@ -570,19 +570,19 @@ await globalThis.webR.init();
 // Run R code without focusing on storing data.
 await globalThis.webR.evalRVoid(`
 
-plot_binom <- function(k, n, p) {
+teikna_tvikosta <- function(k, n, p) {
   
   if (k > n) {
     return("k getur aldrei verið stærri en n (getur ekki kastað krónu 10 sinnum og fengið 15 þorska)")
   }
   
-  x <- seq(0, ceiling(n / prob))
-  y1 <- dbinom(x, size = n, prob = prob)
+  x <- seq(0, n)
+  y1 <- dbinom(x, size = n, prob = p)
   keep <- y1 > 1e-5
   y1 <- y1[keep]
   x <- x[keep]
   
-  y2 <- pbinom(x, size = n, prob = prob)
+  y2 <- pbinom(x, size = n, prob = p)
   
   p1 <- ggplot() +
     geom_col(aes(x = x, y = y1, fill = (x == k)), show.legend = FALSE) +
@@ -652,9 +652,9 @@ plot_binom <- function(k, n, p) {
     editor = monaco.editor.create(editorDiv, {
       value: `k <- 40
 n <- 100
-prob <- 0.3
+p <- 0.3
 
-plot_binom(k, n, p)`,
+teikna_tvikosta(k, n, p)`,
       language: 'r',
       theme: 'vs-light',
       automaticLayout: true,           // TODO: Could be problematic for slide decks
