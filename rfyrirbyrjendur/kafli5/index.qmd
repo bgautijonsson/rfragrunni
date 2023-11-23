@@ -126,7 +126,7 @@ pbinom(k, n, p)
 ```
 :::  
 
-### Posson dreifing
+### Poisson dreifing
 
 ```{webr-r}
 #| context: setup

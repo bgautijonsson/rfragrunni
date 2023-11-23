@@ -9,7 +9,16 @@ project:
 website:
   sidebar:
     logo: "https://www.hi.is/sites/default/files/styles/vi_hengi_-_tenglar/public/ame18/hilogo.png?itok=9UgaDOcd"
+    tools: 
+      - icon: github
+        menu:
+          - text: Tilkynna villu
+            url: https://github.com/bgautijonsson/rfragrunni/issues
+          - text: Kóði
+            url: https://github.com/bgautijonsson/rfragrunni
     contents:
+      - text: "Heim"
+        file: index.qmd
       - section: "R frá grunni"
         contents:
           - rfyrirbyrjendur/kafli1/index.qmd

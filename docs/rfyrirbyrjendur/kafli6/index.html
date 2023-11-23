@@ -103,6 +103,301 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     "search-label": "Search"
   }
 }</script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/monaco-editor@0.43.0/min/vs/editor/editor.main.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer">
+<style>
+  .monaco-editor pre {
+    background-color: unset !important;
+  }
+
+  .qwebr-icon-status-spinner {
+    color: #7894c4;
+  }
+
+  .qwebr-icon-run-code {
+    color: #0d9c29
+  }
+
+  .qwebr-output-code-stdout {
+    color: #111;
+  }
+
+  .qwebr-output-code-stderr {
+    color: #db4133;
+  }
+
+  .qwebr-editor {
+    border: 1px solid #EEEEEE;
+  }
+
+  .qwebr-button-run {
+    background-color: #EEEEEE;
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0; /* Extra styling for consistency */
+    display: inline-block;
+    font-weight: 400;
+    line-height: 1.5;
+    color: #000;
+    text-align: center;
+    text-decoration: none;
+    -webkit-text-decoration: none;
+    -moz-text-decoration: none;
+    -ms-text-decoration: none;
+    -o-text-decoration: none;
+    /* vertical-align: middle; */ /* Prevents a space from appearing between the code cell and button */
+    -webkit-user-select: none;
+    border-color: #dee2e6;
+    border: 1px solid rgba(0,0,0,0);
+    padding: 0.375rem 0.75rem;
+    font-size: 1rem;
+    border-top-right-radius: 0.25rem;
+    border-top-left-radius: 0.25rem;
+    transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+  }
+
+  .qwebr-button-run:hover {
+    color: #000;
+    background-color: #e3e6ea;
+    border-color: #e1e5e9;
+  }
+
+  .qwebr-button-run:disabled,.qwebr-button-run.disabled,fieldset:disabled .qwebr-button-run {
+    pointer-events: none;
+    opacity: .65
+  }
+
+  /* Custom styling for RevealJS Presentations*/
+
+  /* Reset the style of the interactive area */
+  .reveal div.qwebr-interactive-area {
+    display: block;
+    box-shadow: none;
+    max-width: 100%;
+    max-height: 100%;
+    margin: 0;
+    padding: 0;
+  } 
+
+  /* Provide space to entries */
+  .reveal div.qwebr-output-code-area pre div {
+    margin: 1px 2px 1px 10px;
+  }
+
+  /* Collapse the inside code tags to avoid extra space between line outputs */
+  .reveal pre div code.qwebr-output-code-stdout, .reveal pre div code.qwebr-output-code-stderr {
+    padding: 0;
+    display: contents;
+  }
+
+  .reveal pre div code.qwebr-output-code-stdout {
+    color: #111;
+  }
+
+  .reveal pre div code.qwebr-output-code-stderr {
+    color: #db4133;
+  }
+
+
+  /* Create a border around console and output (does not effect graphs) */
+  .reveal div.qwebr-console-area {
+    border: 1px solid #EEEEEE;
+    box-shadow: 2px 2px 10px #EEEEEE;
+  }
+
+  /* Cap output height and allow text to scroll */
+  /* TODO: Is there a better way to fit contents/max it parallel to the monaco editor size? */
+  .reveal div.qwebr-output-code-area pre {
+    max-height: 400px;
+    overflow: scroll;
+  }
+</style>
+
+<script type="module">
+
+  // Start a timer
+  const initializeWebRTimerStart = performance.now();
+
+  // Determine if we need to install R packages
+  var installRPackagesList = [''];
+  // Check to see if we have an empty array, if we do set to skip the installation.
+  var setupRPackages = !(installRPackagesList.indexOf("") !== -1);
+  var autoloadRPackages = true;
+
+  // Display a startup message?
+  var showStartupMessage = true;
+  var showHeaderMessage = false;
+  if (showStartupMessage) {
+
+    // Get references to header elements
+    const headerHTML = document.getElementById("title-block-header");
+    const headerRevealJS = document.getElementById("title-slide");
+
+    // Create the outermost div element for metadata
+    const quartoTitleMeta = document.createElement("div");
+    quartoTitleMeta.classList.add("quarto-title-meta");
+
+    // Create the first inner div element
+    const firstInnerDiv = document.createElement("div");
+    firstInnerDiv.setAttribute("id", "qwebr-status-message-area");
+
+    // Create the second inner div element for "WebR Status" heading and contents
+    const secondInnerDiv = document.createElement("div");
+    secondInnerDiv.setAttribute("id", "qwebr-status-message-title");
+    secondInnerDiv.classList.add("quarto-title-meta-heading");
+    secondInnerDiv.innerText = "WebR Status";
+
+    // Create another inner div for contents
+    const secondInnerDivContents = document.createElement("div");
+    secondInnerDivContents.setAttribute("id", "qwebr-status-message-body");
+    secondInnerDivContents.classList.add("quarto-title-meta-contents");
+
+    // Describe the WebR state
+    var startupMessageWebR = document.createElement("p");
+    startupMessageWebR.innerText = "🟡 Loading...";
+    startupMessageWebR.setAttribute("id", "qwebr-status-message-text");
+    // Add `aria-live` to auto-announce the startup status to screen readers
+    startupMessageWebR.setAttribute("aria-live", "assertive");
+
+    // Append the startup message to the contents
+    secondInnerDivContents.appendChild(startupMessageWebR);
+
+    // Add a status indicator for COOP and COEP Headers if needed
+    if (showHeaderMessage) {
+      const crossOriginMessage = document.createElement("p");
+      crossOriginMessage.innerText = `${crossOriginIsolated ? '🟢' : '🟡'} COOP & COEP Headers`;
+      crossOriginMessage.setAttribute("id", "qwebr-coop-coep-header");
+      secondInnerDivContents.appendChild(crossOriginMessage);
+    }
+
+    // Combine the inner divs and contents
+    firstInnerDiv.appendChild(secondInnerDiv);
+    firstInnerDiv.appendChild(secondInnerDivContents);
+    quartoTitleMeta.appendChild(firstInnerDiv);
+
+    // Determine where to insert the quartoTitleMeta element
+    if (headerHTML) {
+      // Append to the existing "title-block-header" element
+      headerHTML.appendChild(quartoTitleMeta);
+    } else if (headerRevealJS) {
+      // If using RevealJS, add to the "title-slide" div
+      headerRevealJS.appendChild(firstInnerDiv);
+    } else {
+      // If neither headerHTML nor headerRevealJS is found, insert after "webr-monaco-editor-init" script
+      const monacoScript = document.getElementById("qwebr-monaco-editor-init");
+      const header = document.createElement("header");
+      header.setAttribute("id", "title-block-header");
+      header.appendChild(quartoTitleMeta);
+      monacoScript.after(header);
+    }
+  }
+
+  // Retrieve the webr.mjs
+  import { WebR, ChannelType } from "https://webr.r-wasm.org/v0.2.2/webr.mjs";
+
+  // Populate WebR options with defaults or new values based on 
+  // webr meta
+  globalThis.webR = new WebR({
+    "baseURL": "https://webr.r-wasm.org/v0.2.2/",
+    "serviceWorkerUrl": "",
+    "homedir": "/home/web_user", 
+    "channelType": ChannelType.PostMessage
+  });
+
+  // Initialization WebR
+  await globalThis.webR.init();
+
+  // Setup a shelter
+  globalThis.webRCodeShelter = await new globalThis.webR.Shelter();
+
+  // Setup a pager to allow processing help documentation 
+  await globalThis.webR.evalRVoid('webr::pager_install()'); 
+
+  // Function to set the button text
+  function qwebrSetInteractiveButtonState(buttonText, enableCodeButton = true) {
+    document.querySelectorAll(".qwebr-button-run").forEach((btn) => {
+      btn.innerHTML = buttonText;
+      btn.disabled = !enableCodeButton;
+    });
+  }
+
+  // Function to update the status message
+  function qwebrUpdateStatusHeader(message) {
+    startupMessageWebR.innerHTML = `
+      <i class="fa-solid fa-spinner fa-spin qwebr-icon-status-spinner"></i>
+      <span>${message}</span>`;
+  }
+
+  // Function to install a single package
+  async function qwebrInstallRPackage(packageName) {
+    await globalThis.webR.installPackages([packageName]);
+  }
+
+  // Function to load a single package
+  async function qwebrLoadRPackage(packageName) {
+    await globalThis.webR.evalRVoid(`library(${packageName});`);
+  }
+
+  // Generic function to process R packages
+  async function qwebrProcessRPackagesWithStatus(packages, processType, displayStatusMessageUpdate = true) {
+    // Switch between contexts
+    const messagePrefix = processType === 'install' ? 'Installing' : 'Loading';
+
+    // Modify button state
+    qwebrSetInteractiveButtonState(`🟡 ${messagePrefix} package ...`, false);
+
+    // Iterate over packages
+    for (let i = 0; i < packages.length; i++) {
+      const activePackage = packages[i];
+      const formattedMessage = `${messagePrefix} package ${i + 1} out of ${packages.length}: ${activePackage}`;
+      
+      // Display the update
+      if (displayStatusMessageUpdate) {
+        qwebrUpdateStatusHeader(formattedMessage);
+      }
+
+      // Run package installation
+      if (processType === 'install') {
+        await qwebrInstallRPackage(activePackage);
+      } else {
+        await qwebrLoadRPackage(activePackage);
+      }
+    }
+
+    // Clean slate
+    if (processType === 'load') {
+      await globalThis.webR.flush();
+    }
+  }
+
+
+  // Check to see if any packages need to be installed
+  if (setupRPackages) {
+    // Obtain only a unique list of packages
+    const uniqueRPackageList = Array.from(new Set(installRPackagesList));
+
+    // Install R packages one at a time (either silently or with a status update)
+    await qwebrProcessRPackagesWithStatus(uniqueRPackageList, 'install', showStartupMessage);
+
+    if(autoloadRPackages) {
+      // Load R packages one at a time (either silently or with a status update)
+      await qwebrProcessRPackagesWithStatus(uniqueRPackageList, 'load', showStartupMessage);
+    }
+  }
+
+  // Stop timer
+  const initializeWebRTimerEnd = performance.now();
+
+  // Release document status as ready
+  if (showStartupMessage) {
+    startupMessageWebR.innerText = "🟢 Ready!"
+  }
+  
+  qwebrSetInteractiveButtonState(
+    `<i class="fa-solid fa-play qwebr-icon-run-code"></i> <span>Run Code</span>`, 
+    true
+  );
+
+</script>
 
 
 </head>
@@ -133,6 +428,23 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <a href="../../index.html" class="sidebar-logo-link">
       <img src="https://www.hi.is/sites/default/files/styles/vi_hengi_-_tenglar/public/ame18/hilogo.png?itok=9UgaDOcd" alt="" class="sidebar-logo py-0 d-lg-inline d-none">
       </a>
+      <div class="sidebar-tools-main">
+    <div class="dropdown">
+      <a href="" title="" id="quarto-navigation-tool-dropdown-0" class="quarto-navigation-tool dropdown-toggle px-1" data-bs-toggle="dropdown" aria-expanded="false" aria-label=""><i class="bi bi-github"></i></a>
+      <ul class="dropdown-menu" aria-labelledby="quarto-navigation-tool-dropdown-0">
+          <li>
+            <a class="dropdown-item sidebar-tools-main-item" href="https://github.com/bgautijonsson/rfragrunni/issues">
+            Tilkynna villu
+            </a>
+          </li>
+          <li>
+            <a class="dropdown-item sidebar-tools-main-item" href="https://github.com/bgautijonsson/rfragrunni">
+            Kóði
+            </a>
+          </li>
+      </ul>
+    </div>
+</div>
       </div>
         <div class="mt-2 flex-shrink-0 align-items-center">
         <div class="sidebar-search">
@@ -141,6 +453,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
         </div>
     <div class="sidebar-menu-container"> 
     <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Heim</span></a>
+  </div>
+</li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true">
@@ -226,6 +544,16 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     
 <!-- main -->
 <main class="content" id="quarto-document-content">
+<script src="https://cdn.jsdelivr.net/npm/monaco-editor@0.43.0/min/vs/loader.js"></script>
+<script type="module" id="qwebr-monaco-editor-init">
+
+  // Configure the Monaco Editor's loader
+  require.config({
+    paths: {
+      'vs': 'https://cdn.jsdelivr.net/npm/monaco-editor@0.43.0/min/vs'
+    }
+  });
+</script>
 
 <header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../rfyrirbyrjendur/kafli1/index.html">R frá grunni</a></li><li class="breadcrumb-item"><a href="../../rfyrirbyrjendur/kafli6/index.html">Ályktunartölfræði</a></li></ol></nav>
 <div class="quarto-title">
@@ -283,16 +611,416 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
-<p>This is a Quarto website.</p>
-<p>To learn more about Quarto websites visit <a href="https://quarto.org/docs/websites" class="uri">https://quarto.org/docs/websites</a>.</p>
+<p>Góð leið til að átta sig á líkindadreifingum gagna er með hermunum. Í þessum kafla munum við annars vegar fjalla um hvernig velja má slembiúrtök í R og hins vegar fjalla um endurvalsaðferðir. Endurvalsaðferðir eru geysilega öflugar aðferðir sem nota má til að reikna öryggisbil og framkvæma tilgátupróf fyrir nánast hvaða lýsistærð sem er og byggja margar gerðir af útreiknuðum öryggisbilum í R á slíkum aðferðum. Í kafla 6.1 lýsum við hvernig nota má skipunina <code>sample()</code> til að velja slembiúrtök. Í kafla 6.2 kynnumst við skipuninni <code>replicate()</code> og sýnum með henni fram á virkni höfuðsetningar tölfræðinnar. Að því loknu notum við sömu skipun til að reikna öryggisbil í kafla 6.3.</p>
+<section id="slembiúrtök-valin" class="level1">
+<h1>Slembiúrtök valin</h1>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Aðferð: sample()
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><strong>Inntak:</strong> nafn á vigri og stærð úrtaks</p>
+<p><strong>Úttak:</strong> úrtak</p>
+<p><strong>Helstu stillingar:</strong> replace, prob</p>
+</div>
+</div>
+<p>R býr yfir skemmtilegri skipun sem við getum bæði notað til að velja úrtak úr endanlegu þýði en einnig til að líkja eftir slembnu fyrirbæri sem er mælt aftur og aftur. Það er skipunin <code>sample()</code>. Skipunin er mötuð með tvennu, annars vegar vigri sem inniheldur þýðið okkar (allar mögulegar útkomur) sem við viljum velja úr og hins vegar heildarfjölda þeirra mælinga sem við viljum safna (stærð úrtaksins). Gætið þess að gefa fyrst útkomumengið og svo fjölda mælinga. Í hjálpinni sjáum við líka að <code>hefur tvo stillingamöguleika,</code>replace<code>og</code>prob<code>. Sjálfgefnu stillingarnar eru</code>replace=FALSE<code>og</code>prob=NULL`.</p>
+<p>Við munum ekki nota stillingarmöguleikann <code>prob</code> mikið en hann segir til um líkurnar á því að hvert og eitt gildi í vigrinum sé valið. Sjálfgefna stillingin er að allar útkomurnar séu jafnlíklegar sem er yfirleitt það sem við viljum.</p>
+<p>Stillingarmöguleikann <code>replace</code> munum við hins vegar nota. Sjálfgefna stillingin (<code>replace=FALSE</code>) gefur til kynna að valið sé án skila eins og það er kallað. Það þýðir að um leið og ein útkoma hefur verið valin þá getur hún ekki verið valin aftur. Þessa stillingu myndum við t.d. nota ef við vildum velja ákveðinn fjölda viðfangsefna úr endanlegu þýði. Látum til gamans útkomumengið okkar vera jólasveinana 13. Við búum til vigurinn <code>jolasveinar</code> sem inniheldur heiti allra jólasveinanna með skipuninni:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="dv">1</span> <span class="sc">+</span> <span class="dv">1</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>jolasveinar <span class="ot">&lt;-</span> <span class="fu">c</span>(</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Stekkjastaur"</span>, </span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Giljagaur"</span>, </span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Stufur"</span>, </span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Thvorusleikir"</span>,</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Pottaskefill"</span>, </span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Askasleikir"</span>, </span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Hurdaskellir"</span>, </span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Skyrgamur"</span>, </span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Bjugnakraekir"</span>,</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Gluggagaegir"</span>, </span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Gattathefur"</span>, </span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Ketkrokur"</span>, </span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Kertasnikir"</span></span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>jolasveinar</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 2</code></pre>
+<pre><code> [1] "Stekkjastaur"  "Giljagaur"     "Stufur"        "Thvorusleikir"
+ [5] "Pottaskefill"  "Askasleikir"   "Hurdaskellir"  "Skyrgamur"    
+ [9] "Bjugnakraekir" "Gluggagaegir"  "Gattathefur"   "Ketkrokur"    
+[13] "Kertasnikir"  </code></pre>
+</div>
+</div>
+<div class="callout callout-style-default callout-caution callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Varúð
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Takið eftir því hvernig við setjum gæsalappir utanum nafnið á hverjum einasta jólasveini. Þær mega ekki gleymast því án gæsalappa værum við óvart að segja R að það væri til breyta sem heitir nafni jólasveins.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>Stekkjastaur <span class="ot">&lt;-</span> <span class="st">"LEPPALÚÐI!"</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>jolasveinar <span class="ot">&lt;-</span> <span class="fu">c</span>(</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>  Stekkjastaur, </span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Giljagaur"</span>, </span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Stufur"</span>, </span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Thvorusleikir"</span>,</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Pottaskefill"</span>, </span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Askasleikir"</span>, </span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Hurdaskellir"</span>, </span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Skyrgamur"</span>, </span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Bjugnakraekir"</span>,</span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Gluggagaegir"</span>, </span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Gattathefur"</span>, </span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Ketkrokur"</span>, </span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Kertasnikir"</span></span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a>jolasveinar</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> [1] "LEPPALÚÐI!"    "Giljagaur"     "Stufur"        "Thvorusleikir"
+ [5] "Pottaskefill"  "Askasleikir"   "Hurdaskellir"  "Skyrgamur"    
+ [9] "Bjugnakraekir" "Gluggagaegir"  "Gattathefur"   "Ketkrokur"    
+[13] "Kertasnikir"  </code></pre>
+</div>
+</div>
+</div>
+</div>
+<p>Skipunin að neðanvelur fjögur ólík gildi úr vigrinum <code>jolasveinar</code> af handahófi, þ.e.a.s. velur fjóra ólíka jólasveina af handahófi.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sample</span>(jolasveinar, <span class="dv">4</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "LEPPALÚÐI!"   "Gattathefur"  "Hurdaskellir" "Ketkrokur"   </code></pre>
+</div>
+</div>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Æfing
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Lagaðu eftirfarandi kóða þannig að hver jólasveinn getur verið valinn oftar en einu sinni þannig að við fáum ekki villu</p>
+<script type="module">
+// Initialization WebR
+await globalThis.webR.init();
+
+// Run R code without focusing on storing data.
+await globalThis.webR.evalRVoid(`
+
+jolasveinar <- c(
+  "Stekkjastaur", 
+  "Giljagaur", 
+  "Stufur", 
+  "Thvorusleikir",
+  "Pottaskefill", 
+  "Askasleikir", 
+  "Hurdaskellir", 
+  "Skyrgamur", 
+  "Bjugnakraekir",
+  "Gluggagaegir", 
+  "Gattathefur", 
+  "Ketkrokur", 
+  "Kertasnikir"
+)
+`)
+</script>	
+<div id="qwebr-interactive-area-2" class="qwebr-interactive-area">
+  <button class="btn btn-default qwebr-button-run" disabled="" type="button" id="qwebr-button-run-2">🟡 Loading
+    webR...</button>
+  <div id="qwebr-console-area-2" class="qwebr-console-area">
+    <div id="qwebr-editor-2" class="qwebr-editor"></div>
+    <div id="qwebr-output-code-area-2" class="qwebr-output-code-area" aria-live="assertive">
+      <pre style="visibility: hidden"></pre>
+    </div>
+  </div>
+  <div id="qwebr-output-graph-area-2" class="qwebr-output-graph-area">
+  </div>
+</div>
+<script type="module">
+  // Retrieve webR code cell information
+  const runButton = document.getElementById("qwebr-button-run-2");
+  const outputCodeDiv = document.getElementById("qwebr-output-code-area-2");
+  const editorDiv = document.getElementById("qwebr-editor-2");
+  const outputGraphDiv = document.getElementById("qwebr-output-graph-area-2");
+
+  // Load the Monaco Editor and create an instance
+  let editor;
+  require(['vs/editor/editor.main'], function () {
+    editor = monaco.editor.create(editorDiv, {
+      value: `sample(jolasveinar, size = 14)`,
+      language: 'r',
+      theme: 'vs-light',
+      automaticLayout: true,           // TODO: Could be problematic for slide decks
+      scrollBeyondLastLine: false,
+      minimap: {
+        enabled: false
+      },
+      fontSize: '17.5pt',               // Bootstrap is 1 rem
+      renderLineHighlight: "none",     // Disable current line highlighting
+      hideCursorInOverviewRuler: true  // Remove cursor indictor in right hand side scroll bar
+    });
+
+    // Dynamically modify the height of the editor window if new lines are added.
+    let ignoreEvent = false;
+    const updateHeight = () => {
+      const contentHeight = editor.getContentHeight();
+      // We're avoiding a width change
+      //editorDiv.style.width = `${width}px`;
+      editorDiv.style.height = `${contentHeight}px`;
+      try {
+        ignoreEvent = true;
+
+        // The key to resizing is this call
+        editor.layout();
+      } finally {
+        ignoreEvent = false;
+      }
+    };
+
+    // Helper function to check if selected text is empty
+    function isEmptyCodeText(selectedCodeText) {
+      return (selectedCodeText === null || selectedCodeText === undefined || selectedCodeText === "");
+    }
+
+    // Registry of keyboard shortcuts that should be re-added to each editor window
+    // when focus changes.
+    const addWebRKeyboardShortCutCommands = () => {
+      // Add a keydown event listener for Shift+Enter to run all code in cell
+      editor.addCommand(monaco.KeyMod.Shift | monaco.KeyCode.Enter, () => {
+
+        // Retrieve all text inside the editor
+        executeCode(editor.getValue());
+      });
+
+      // Add a keydown event listener for CMD/Ctrl+Enter to run selected code
+      editor.addCommand(monaco.KeyMod.CtrlCmd | monaco.KeyCode.Enter, () => {
+
+        // Get the selected text from the editor
+        const selectedText = editor.getModel().getValueInRange(editor.getSelection());
+        // Check if no code is selected
+        if (isEmptyCodeText(selectedText)) {
+          // Obtain the current cursor position
+          let currentPosition = editor.getPosition();
+          // Retrieve the current line content
+          let currentLine = editor.getModel().getLineContent(currentPosition.lineNumber);
+
+          // Propose a new position to move the cursor to
+          let newPosition = new monaco.Position(currentPosition.lineNumber + 1, 1);
+
+          // Check if the new position is beyond the last line of the editor
+          if (newPosition.lineNumber > editor.getModel().getLineCount()) {
+            // Add a new line at the end of the editor
+            editor.executeEdits("addNewLine", [{
+            range: new monaco.Range(newPosition.lineNumber, 1, newPosition.lineNumber, 1),
+            text: "\n", 
+            forceMoveMarkers: true,
+            }]);
+          }
+          
+          // Run the entire line of code.
+          executeCode(currentLine);
+
+          // Move cursor to new position
+          editor.setPosition(newPosition);
+        } else {
+          // Code to run when Ctrl+Enter is pressed with selected code
+          executeCode(selectedText);
+        }
+      });
+    }
+
+    // Register an on focus event handler for when a code cell is selected to update
+    // what keyboard shortcut commands should work.
+    // This is a workaround to fix a regression that happened with multiple
+    // editor windows since Monaco 0.32.0 
+    // https://github.com/microsoft/monaco-editor/issues/2947
+    editor.onDidFocusEditorText(addWebRKeyboardShortCutCommands);
+
+    // Register an on change event for when new code is added to the editor window
+    editor.onDidContentSizeChange(updateHeight);
+
+    // Manually re-update height to account for the content we inserted into the call
+    updateHeight();
+  });
+
+  // Function to execute the code (accepts code as an argument)
+  async function executeCode(codeToRun) {
+
+    // Disallowing execution of other code cells
+    document.querySelectorAll(".qwebr-button-run").forEach((btn) => {
+      btn.disabled = true;
+    });
+
+    // Emphasize the active code cell
+    runButton.innerHTML = '<i class="fa-solid fa-spinner fa-spin qwebr-icon-status-spinner"></i> <span>Run Code</span>';
+
+    // Create a canvas variable for graphics
+    let canvas = undefined;
+
+    // Create a pager variable for help/file contents
+    let pager = [];
+
+    // Process 
+    async function parseTypePager(msg) { 
+
+        // Split out the event data
+        const { path, title, deleteFile } = msg.data; 
+
+        // Process the pager data by reading the information from disk
+        const paged_data = await webR.FS.readFile(path).then((data) => {
+          // Obtain the file content
+          let content = new TextDecoder().decode(data);
+
+          // Remove excessive backspace characters until none remain
+          while(content.match(/.[\b]/)){
+            content = content.replace(/.[\b]/g, '');
+          }
+
+          // Returned cleaned data
+          return content;
+        });
+
+        // Unlink file if needed
+        if (deleteFile) { 
+          await webR.FS.unlink(path); 
+        } 
+
+        // Return extracted data with spaces
+        return paged_data;
+    } 
+
+    // Initialize webR
+    await webR.init();
+
+    // Setup a webR canvas by making a namespace call into the {webr} package
+    await webR.evalRVoid("webr::canvas(width=504, height=360)");
+
+    // Capture output data from evaluating the code
+    const result = await webRCodeShelter.captureR(codeToRun, {
+      withAutoprint: true,
+      captureStreams: true,
+      captureConditions: false//,
+      // env: webR.objs.emptyEnv, // maintain a global environment for webR v0.2.0
+    });
+
+    // Start attempting to parse the result data
+    try {
+
+      // Stop creating images
+      await webR.evalRVoid("dev.off()");
+
+      // Merge output streams of STDOUT and STDErr (messages and errors are combined.)
+      const out = result.output
+        .filter(evt => evt.type === "stdout" || evt.type === "stderr")
+        .map((evt, index) => {
+          const className = `qwebr-output-code-${evt.type}`;
+          return `<code id="${className}-editor-2-result-${index + 1}" class="${className}">${evt.data}</code>`;
+        })
+        .join("\n");
+
+
+      // Clean the state
+      const msgs = await webR.flush();
+
+      // Output each image event stored
+      msgs.forEach((msg) => {
+        // Determine if old canvas can be used or a new canvas is required.
+        if (msg.type === 'canvas'){
+          // Add image to the current canvas
+          if (msg.data.event === 'canvasImage') {
+            canvas.getContext('2d').drawImage(msg.data.image, 0, 0);
+          } else if (msg.data.event === 'canvasNewPage') {
+            // Generate a new canvas element
+            canvas = document.createElement("canvas");
+            canvas.setAttribute("width", 2 * 504);
+            canvas.setAttribute("height", 2 * 360);
+            canvas.style.width = "700px";
+            canvas.style.display = "block";
+            canvas.style.margin = "auto";
+          }
+        } 
+      });
+
+      // Use `map` to process the filtered "pager" events asynchronously
+      const pager = await Promise.all(
+        msgs.filter(msg => msg.type === 'pager').map(
+          async (msg) => {
+            return await parseTypePager(msg);
+          }
+        )
+      );
+
+      // Nullify the output area of content
+      outputCodeDiv.innerHTML = "";
+      outputGraphDiv.innerHTML = "";
+
+      // Design an output object for messages
+      const pre = document.createElement("pre");
+      if (/\S/.test(out)) {
+        // Display results as HTML elements to retain output styling
+        const div = document.createElement("div");
+        div.innerHTML = out;
+        pre.appendChild(div);
+      } else {
+        // If nothing is present, hide the element.
+        pre.style.visibility = "hidden";
+      }
+      outputCodeDiv.appendChild(pre);
+
+      // Place the graphics on the canvas
+      if (canvas) {
+        outputGraphDiv.appendChild(canvas);
+      }
+
+      // Display the pager data
+      if (pager) {
+        // Use the `pre` element to preserve whitespace.
+        pager.forEach((paged_data, index) => {
+          let pre_pager = document.createElement("pre");
+          pre_pager.innerText = paged_data;
+          pre_pager.classList.add("qwebr-output-code-pager");
+          pre_pager.setAttribute("id", "qwebr-output-code-pager-editor-2-result-" + (index + 1));
+          outputCodeDiv.appendChild(pre_pager);
+        });
+      }
+    } finally {
+      // Clean up the remaining code
+      webRCodeShelter.purge();
+    }
+
+    // Switch to allowing execution of code
+    document.querySelectorAll(".qwebr-button-run").forEach((btn) => {
+      btn.disabled = false;
+    });
+
+    // Revert to the initial code cell state
+    runButton.innerHTML = '<i class="fa-solid fa-play qwebr-icon-run-code"></i> <span>Run Code</span>';
+  }
+
+  // Add a click event listener to the run button
+  runButton.onclick = function () {
+    executeCode(editor.getValue());
+  };
+</script>
 </div>
 </div>
 
 
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
