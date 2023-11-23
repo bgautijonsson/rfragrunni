@@ -42,7 +42,20 @@ editor: source
 author: 
   - name: Anna Helga Jónsdóttir
     email: ahj@hi.is
+    affiliation: Háskóli Íslands
   - name: Sigrún Helga Lund
     email: sigrunhl@hi.is
+    affiliation: Háskóli Íslands
   - name: Bjarki Þór Elvarsson
     email: bjarki.elvarsson@hafogvatn.is
+    affiliation: Hafrannsóknarstofnun
+    
+    
+    
+    
+language:
+  title-block-author-single: "Höfundur"
+  title-block-author-plural: "Höfundar"
+  title-block-affiliation-single: "Stofnun"
+  title-block-affiliation-plural: "Stofnun"
+  title-block-published: "Síðast uppfært"
