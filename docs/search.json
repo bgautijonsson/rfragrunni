@@ -99,7 +99,18 @@
     "href": "kaflar/kafli3/index.html",
     "title": "Myndræn framsetning",
     "section": "",
-    "text": "This is a Quarto website.\nTo learn more about Quarto websites visit https://quarto.org/docs/websites.\n\n1 + 1\n\n[1] 2",
+    "text": "Myndræn framsetning er gífurlega mikilvæg á öllum stigum tölfræðiúrvinnslu. Með nokkrum gröfum má fljótt fá tilfinningu fyrir gögnum og því mælum alltaf með því fljótlega eftir innlestur gagna áður en lengra er haldið með frekari tölfræðiúrvinnslu. Sömuleiðis eru gröf oft og tíðum einstaklega heppileg til að setja fram niðurstöður rannsókna og að lokum gegna þau einnig mikilvægu hlutverki við að kanna hvort forsendur ýmissa tölfræðiprófa séu uppfylltar.\nÍ grunnpakkanum sem fylgir R má finna ýmsar aðferðir til að búa til gröf (t.d. plot(), barplot(), boxplot() og histogram()). Þær eru mjög auðveldar í notkun en gröfin sem þær skila eru ekki sérlega fögur. Það hefur færst mikið í vöxt að R-notendur noti aðferðir sem tilheyra pakka sem kallast ggplot2 til að búa til gröf. Með honum má útbúa yndisfögur gröf og er hann umfjöllunarefni þessa kafla.\nÓlíkt því sem gengur og gerist munum við einungis nota eina aðferð ggplot() en með henni fylgja ótalmargar viðbætur sem gera okkur kleift að teikna fjölbreytt gröf.",
+    "crumbs": [
+      "Bókin",
+      "Myndræn framsetning"
+    ]
+  },
+  {
+    "objectID": "kaflar/kafli3/index.html#algengustu-gröf",
+    "href": "kaflar/kafli3/index.html#algengustu-gröf",
+    "title": "Myndræn framsetning",
+    "section": "Algengustu gröf",
+    "text": "Algengustu gröf\n\nPunktarit\nPunktarit eru einföld og skýr leið til að setja fram gögn. Þau eru smíðuð með viðbótinni + geom_point(). Eftirfarandi skipun gefur okkur punktarit sem lýsir sambandi hæðar og þyngdar í gagnatöflunni puls. Skýribreytan haed er á x-ás og svarbreytan thyngd á y-ás, þær eru báðar tilgreindar inn í útlitsstillingunni aes().\n\n  🟡 Loading\n    webR...\n  \n    \n    \n      \n    \n  \n  \n  \n\n\n\n\n\n\n\n\nÆfing\n\n\n\nKláraðu kóðabútinn að neðan svo að teiknað verður punktarit með breytunni hp á x-ás og mpg á y-ás\n\n  🟡 Loading\n    webR...\n  \n    \n    \n      \n    \n  \n  \n  \n\n\n\n\n\n\nStöplarit\nStöplarit eru tilgreind með viðbótinni geom_bar(). Þar sem stöplarit eru einungis notuð til að lýsa einni breytu er aðeins sú breyta tilgreind inní aes().\n\n  🟡 Loading\n    webR...\n  \n    \n    \n      \n    \n  \n  \n  \n\n\n\n\n\n\n\n\nÆfing\n\n\n\nKláraðu kóðabútinn að neðan svo að teiknað verður stöplarit með breytunni am á x-ás\n\n  🟡 Loading\n    webR...",
     "crumbs": [
       "Bókin",
       "Myndræn framsetning"

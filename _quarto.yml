@@ -32,7 +32,7 @@ format:
       warning: false
       message: false
 webr:
-  - channel-type: "post-message"
+  channel-type: "post-message"
 filters: 
   - webr
 title-block-banner: false

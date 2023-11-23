@@ -1,11 +1,75 @@
 ---
 title: "Myndræn framsetning"
+webr:
+  packages: ['ggplot2']
 ---
 
-This is a Quarto website.
+Myndræn framsetning er gífurlega mikilvæg á öllum stigum tölfræðiúrvinnslu. Með nokkrum gröfum má fljótt fá tilfinningu fyrir gögnum og því mælum alltaf með því fljótlega eftir innlestur gagna áður en lengra er haldið með frekari tölfræðiúrvinnslu. Sömuleiðis eru gröf oft og tíðum einstaklega heppileg til að setja fram niðurstöður rannsókna og að lokum gegna þau einnig mikilvægu hlutverki við að kanna hvort forsendur ýmissa tölfræðiprófa séu uppfylltar.
 
-To learn more about Quarto websites visit <https://quarto.org/docs/websites>.
+Í grunnpakkanum sem fylgir R má finna ýmsar aðferðir til að búa til gröf (t.d. `plot()`, `barplot()`, `boxplot()` og `histogram()`). Þær eru mjög auðveldar í notkun en gröfin sem þær skila eru ekki sérlega fögur. Það hefur færst mikið í vöxt að R-notendur noti aðferðir sem tilheyra pakka sem kallast `ggplot2` til að búa til gröf. Með honum má útbúa yndisfögur gröf og er hann umfjöllunarefni þessa kafla.
 
-```{r}
-1 + 1
+Ólíkt því sem gengur og gerist munum við einungis nota eina aðferð `ggplot()` en með henni fylgja ótalmargar viðbætur sem gera okkur kleift að teikna fjölbreytt gröf.
+
+# ggplot()
+
+::: {.callout-note}
+## Athugið
+
+**Inntak:** nafn á gagnatöflu og nöfn á aðalbreytum grafsins  
+
+**Úttak:** graf
+
+**Helstu stillingar:** ótalmargar!
+:::
+
+Skipunin `ggplot()` er ætíð mötuð á sama hátt. Fyrst kemur nafnið á gagnatöflunni sem geymir gögnin, þá útlitsstillingin `aes()` og innan hennar nöfnin á aðalbreytum grafsins. Þar fyrir aftan kemur viðbót sem tilgreinir hvers konar graf skal teikna og einnig er hægt að bæta við ótal fleiri viðbótum til að merkja og breyta ásum, lagskipta grafinu eftir breytum og svo mætti lengi telja. Viðbætur bætast við með `+` í stað þess að vera mataðar inn í fallið. Það mun sjást í hverju dæmi hér fyrir neðan.
+
+Í þessum kafla munum við teikna algengustu gerðir grafa með viðbótunum `geom_point()`, `geom_bar()`, `geom_histogram()`, `geom_boxplot()` og `stat_qq()`.
+
+## Algengustu gröf
+
+### Punktarit
+
+Punktarit eru einföld og skýr leið til að setja fram gögn. Þau eru smíðuð með viðbótinni `+ geom_point()`. Eftirfarandi skipun gefur okkur punktarit sem lýsir sambandi hæðar og þyngdar í gagnatöflunni `puls`. Skýribreytan `haed` er á x-ás og svarbreytan `thyngd` á y-ás, þær eru báðar tilgreindar inn í útlitsstillingunni `aes()`.
+
+```{webr-r}
+library(ggplot2)
+ggplot(data = mtcars, aes(x = wt, y = mpg)) +
+  geom_point()
 ```
+
+::: {.callout-tip}
+## Æfing
+
+Kláraðu kóðabútinn að neðan svo að teiknað verður punktarit með breytunni `hp` á x-ás og `mpg` á y-ás
+
+```{webr-r}
+ggplot(data = mtcars, aes(x = _, y = mpg)) +
+  geom_()
+```
+:::
+
+
+
+
+
+### Stöplarit
+
+Stöplarit eru tilgreind með viðbótinni `geom_bar()`. Þar sem stöplarit eru einungis notuð til að lýsa einni breytu er aðeins sú breyta tilgreind inní `aes()`.
+
+```{webr-r}
+ggplot(data = mtcars, aes(cyl)) +
+  geom_bar()
+```
+
+
+::: {.callout-tip}
+## Æfing
+
+Kláraðu kóðabútinn að neðan svo að teiknað verður stöplarit með breytunni `am` á x-ás
+
+```{webr-r}
+ggplot(data = mtcars, aes(x = _)) +
+  geom_()
+```
+:::
