@@ -1,0 +1,36 @@
+project:
+  type: website
+  output-dir: docs
+  preview: 
+    port: 4200
+    
+    
+website:
+  title: "R frá grunni"
+  sidebar:
+    contents:
+      - section: "Bókin"
+        contents:
+          - kaflar/kafli1/index.qmd
+          - kaflar/kafli2/index.qmd
+          - kaflar/kafli3/index.qmd
+          - kaflar/kafli4/index.qmd
+          - kaflar/kafli5/index.qmd
+          - kaflar/kafli6/index.qmd
+          - kaflar/kafli7/index.qmd
+          - kaflar/kafli8/index.qmd
+          - kaflar/kafli9/index.qmd
+          - kaflar/kafli10/index.qmd
+          - kaflar/kafli11/index.qmd
+
+format: 
+  html:
+    theme: [flatly, theme.scss]
+    execute:
+      freeze: auto
+      warning: false
+      message: false
+filters: 
+  - webr
+
+editor: source

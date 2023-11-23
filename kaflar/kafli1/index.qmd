@@ -1,0 +1,48 @@
+---
+title: "Inngangur"
+---
+
+Tölfræði sem fræðigrein snýst um að vinna upplýsingar út frá tölulegum mælingum. Gróflega skiptist tölfræðin í tvo anga: að lýsa sem best þeim gögnum sem fyrirliggjandi eru og að draga ályktanir um almenna hópa eða þýði út frá mælingum á úrtaki. Í flestum tilfellum er unnið með mikið magn mælinga og því fer almenn tölfræði- og gagnavinnsla að mestu fram með aðstoð tölva. Sérhæfð tölfræðiforrit komu snemma fram á sjónarsviðið og eftir því sem að möguleikar þeirra, sem og reiknigeta tölva, jukust, varð beiting tölfræði víðfeðmari. Mikill fjöldi forrita eru sérsniðin fyrir tölfræði, bæði fyrir almenna og sértæka tölfræðiúrvinnslu. Þar ber helst að nefna R, S-Plus, SAS, STATA og SPSS sem öll hafa náð töluverðri útbreiðslu innan vissra geira. Einnig eru töflureiknar (t.d. Excel) mikið notaðir við tölfræðiúrvinnslu, en hafa skal þó í huga að töflureiknar eru almennt ekki ekki hannaðir sem tölfræðihugbúnaður. Mörg þessara forrita hafa það sammerkt að notkun þeirra er háð leyfi og notkun þeirra fyrir utan háskólaumhverfið takmörkuð sökum leyfisgjalda.
+
+Nú í seinni tíð hefur aukist áhersla á þróun opins tölfræðihugbúnaðar, þ.e. hugbúnaðar sem byggist á forritunarkóða er opinber og aðgengilegur fyrir alla. Slíkur hugbúnaður er yfirleitt ókeypis og mjög sveigjanlegur. Eitt vinsælasta tölfræðiforritið í dag, R, er gott dæmi um þessa þróun. R sem hugbúnaður á rætur að rekja aftur til tilraunaverkefnis tveggja prófessora í tölfræði rétt fyrir aldamót. Prófessoranir tveir, Ross Ihaka og Robert Gentleman við háskólann í Auckland Nýja Sjálandi, þróuðu hugbúnaðinn fyrst til kennslu. Síðar vatt þróunin uppá sig, ekki síst vegna þess að hún var opin og í mikilli samvinnu við notendur. Í dag er R bæði forritunarmál og -umhverfi fyrir alla almenna tölfræði- og gagnavinnslu. Stór þáttur í vinsældum R umfram önnur tölfræðiforrit er sveigjanleiki og fjöldi viðbóta, svonefndra pakka, sem bæta og auka möguleika forritsins. R hefur því orðið á seinustu árum eitt helsta verkfæri tölfræðinga og nú orðið eru flestar tölfræðiaðferðir fyrst forritaðar fyrir R, áður en önnur forrit taka þau upp.
+
+Fyrir þá sem hafa bakgrunn í forritun, þá tölum við oft jöfnum höndum um forritið R (forritið sem framkvæmir tölfræðiúrvinnsluna) og forritunarmálið R (skipanirnar sem að við gefum forritinu). Tölfræðiforritið R útfærir forritunarmál sem er sérsniðið fyrir tölfræði og gagnavinnslu. Ein af sérstöðum R sem forritunarmáls er að í því má finna sérsniðnar gagnategundir sem tengdar eru tölfræði. Þar má nefna flokkabreytur, talnabreytur og gagnatöflur, sambærilegar við töflur í gagnagrunni. Einnig er mikil áhersla lögð á myndræna framsetningu.
+
+R er til fyrir helstu stýrikerfi, þ.e. Windows, MacOsX og Linux. Hráasta viðmót R er skipanalína, en fjöldinn allur af hjálparforritum hafa verið þróuð til þess að styðja við notkun á R með einum eða öðrum hætti. Slík forrit kallast notendaviðmót og má þar einna helst nefna RStudio, sem hefur síðastliðin ár orðið eitt vinsælasta viðmótið fyrir R. RStudio hefur, auk mikils stuðnings við R og R-skipanaskrár, innbyggð tól fyrir sjálfvirka skýrslugerð, skjalastjórnun og gagnvirka greiningu með R.
+
+
+# Um þessa bók
+
+## Um þessa bók
+
+Þessi bók er skrifuð með það í huga að vera uppflettirit fyrir notendur sem eru að stíga sín fyrstu skref með R. Henni er því ekki ætlað að vera kennslubók í tölfræði. Gert er ráð fyrir að notandinn hafi annað hvort einhvern grunn í tölfræði eða geti aflað hans úr öðrum bókum.
+
+Bókin ýtir notandanum af stað í R með því að kynna til sögunnar helstu grunnatriði og vísa svo veginn að frekara ýtarefni. Bókinni er skipt í þematengda kafla þar sem í hverjum kafla er inngangur um efnið og því næst eru tilteknar aðferðir kynntar með dæmum um notkun. Undir lok kaflanna eru, eftir atvikum, undirkaflar með frekari útvíkkunum. Þeir kaflar eru stjörnumerktir og er lesandanum óhætt að geyma þá kafla til síðari tíma án þess að það komi að sök við frekari lestur bókarinnar.
+
+Í hvert sinn sem að ný aðferð (við munum ýmist nota orðin aðferð, fall eða skipun um R-skipanir) er kynnt til sögunnar verður yfirlit um helstu eiginleika hennar lýst með gulum kassa:
+
+
+### aðferð()
+
+
+::: {.callout-note}
+## Athugið
+
+**Inntak:** Með hverju á að mata aðferðina
+
+**Úttak:** Hvað býr aðferðin til
+
+**Helstu stillingar:** Hvað má fínstilla (ef við)
+:::
+
+
+Að því loknu taka við dæmi um beitingu aðferðarinnar í hvítum kössum:
+
+```{webr-r}
+1 + 1
+```
+
+
+Allar skipanirnar byggja á aðgengilegum gögnum svo lesandinn getur hermt þær eftir á eigin tölvu til að dýpka skilninginn.
+
+Við gerum ráð fyrir að notandinn hafi bæði forritin R og RStudio uppsett. Hægt er að nálgast R af slóðinni [http://cran.hafro.is](http://cran.hafro.is) og RStudio af [https://posit.co/download/rstudio-desktop/](https://posit.co/download/rstudio-desktop/). Einnig má benda á að til eru fjölmörg kennslumyndbönd um notkun R en þau má finna á [http://kennslubanki.hi.is](http://kennslubanki.hi.is)
