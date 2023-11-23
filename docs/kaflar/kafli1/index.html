@@ -20,6 +20,40 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
 
 
@@ -364,7 +398,7 @@ ul.task-list li input[type="checkbox"] {
 
 </head>
 
-<body class="nav-sidebar floating fullcontent">
+<body class="nav-sidebar floating slimcontent">
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
@@ -480,9 +514,11 @@ ul.task-list li input[type="checkbox"] {
 </nav>
 <div id="quarto-sidebar-glass" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass"></div>
 <!-- margin-sidebar -->
-    
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        
+    </div>
 <!-- main -->
-<main class="content" id="quarto-document-content">
+<main class="content page-columns page-full" id="quarto-document-content">
 <script src="https://cdn.jsdelivr.net/npm/monaco-editor@0.43.0/min/vs/loader.js"></script>
 <script type="module" id="qwebr-monaco-editor-init">
 
@@ -822,6 +858,429 @@ Athugið
 </script>
 <p>Allar skipanirnar byggja á aðgengilegum gögnum svo lesandinn getur hermt þær eftir á eigin tölvu til að dýpka skilninginn.</p>
 <p>Við gerum ráð fyrir að notandinn hafi bæði forritin R og RStudio uppsett. Hægt er að nálgast R af slóðinni <a href="http://cran.hafro.is">http://cran.hafro.is</a> og RStudio af <a href="https://posit.co/download/rstudio-desktop/">https://posit.co/download/rstudio-desktop/</a>. Einnig má benda á að til eru fjölmörg kennslumyndbönd um notkun R en þau má finna á <a href="http://kennslubanki.hi.is">http://kennslubanki.hi.is</a></p>
+</section>
+</section>
+</section>
+<section id="hvernig-virkar-r" class="level1">
+<h1>Hvernig virkar R?</h1>
+<p>Fyrir þá sem ekki eru vanir því að forrita getur R virst framandi við fyrstu sýn. Þá getur verið gott að hugsa um R sem tóman verkfærakassa sem við munum síðar fylla af alls konar hlutum. Þessir hlutir geta verið af ýmsu tagi, allt frá gögnum til grafa, greininga og aðferða, svo dæmi séu nefnd.</p>
+<p>Í hvert sinn sem við komum að nýju verkefni er kassinn tómur. Síðan hefst vinnulotan okkar, þar sem við notum skipanir til að búa til nýja hluti í kassanum okkar. Í hvert sinn sem við framkvæmum skipun í R höfum við val um tvennt:</p>
+<ul>
+<li>Að skipunin spýti hlutnum sem við bjuggum til á skjáinn okkar og eyði honum svo jafnóðum (hendi honum úr kassanum um leið).</li>
+<li>Að skipunin visti hlutinn þannig að við getum nálgast hann aftur og unnið frekar með hann (geymi hann í kassanum). Í hluta 1.4 förum við nánar í það hvernig skipanir virka.</li>
+</ul>
+<p>R getur ekki vistað hluti nema þeir hafi eitthvað nafn. Það þýðir að allt í kassanum verður að hafa eitthvað heiti og gildir það jafnt um gögn sem aðferðir eða greiningar. Þegar við gefum hlut eitthvað heiti notum við ritháttinn:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>nafn <span class="ot">&lt;-</span> skipun</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>þar sem í stað <code>nafn</code> kemur nafnið sem við viljum gefa hlutnum og í stað <code>skipun</code>kemur sú skipun sem býr til hlutinn. Táknin þar á milli eru „minna en merkið“ og bandstrik. Skipunin getur samanstaðið af mörgum orðum svigum og alls kyns táknum. Ef við hins vegar skrifum bara skipunina, án þess að vista hana undir nafni, prentar R út það sem skipunin gerir á skjáinn, án þess að vista nokkuð.</p>
+<p>Tveir ólíkir hlutir geta ekki haft sama nafnið. Ef við búum til hlut sem hefur sama nafn og hlutur sem við höfðum áður búið til þá hverfur gamli hluturinn og sá nýji kemur í hans stað. Í R er heldur enginn undo takki, þ.e.a.s. ekki er hægt að afturkalla skipanir með neinum hætti. Það þýðir að ef við höfum breytt einhverjum hlut er engin leið að afturkalla þá breytingu nema með því að búa hlutinn aftur til. Það er þó ekkert til að óttast svo framanlega sem við vöndum vinnulagið okkar í R. Það er umfjöllunarefni næsta hluta.</p>
+</section>
+<section id="vinnulag-í-rrstudio" class="level1 page-columns page-full">
+<h1>Vinnulag í R/Rstudio</h1>
+<section id="vinnulag-í-rrstudio-1" class="level2 page-columns page-full">
+<h2 class="anchored" data-anchor-id="vinnulag-í-rrstudio-1">Vinnulag í R/RStudio</h2>
+<p>Í R er lítið um músasmelli heldur byggist úrvinnslan á því að gefa forritinu tilteknar skipanir sem það vinnur síðan úr. Það er hvort tveggja í senn, einn af stærstu kostum R en jafnframt sá eiginleiki sem fælir marga frá forritinu í upphafi.</p>
+<p>Stærsti kosturinn við að gefa skipanir er sá að við getum skrásett nákvæmlega allar aðgerðir okkar og því getum við ekki einungis nákvæmlega endurtekið alla úrvinnslu heldur gert það með lítilli fyrirhöfn. Því margborgar sig að venja sig á skilvirkt vinnulag frá fyrsta degi þegar unnið er í R. Helsti gallinn við að gefa skipanir er sá að nöfnin á skipununum standa ekki á skjánum fyrir framan okkur heldur þurfum við að muna þær eða kunna að leita að þeim, en við munum koma að þessu síðar.</p>
+<p>Afar mikilvægt atriði í góðu vinnulagi í R er að útbúa sérstaka möppu á tölvunni fyrir sérhvert verkefni, þar sem skipanaskrár, gagnasöfn og annað sem kemur að vinnslu í R eru geymd. Þessa mappa er kölluð vinnumappa.</p>
+<p>Windows notendur þurfa að passa sig að nota ekki íslenska stafi né bil í heitinu á möppunni né geyma möppuna í möppum sem inniheldur íslenska stafi eða bil. Það er því ekki hægt að geyma möppuna í:</p>
+<p><code>C\:kalli\My Documents\tolfraedi\Rverkefni</code></p>
+<p>þar sem það er bil í <code>My documents</code>. Makka og Linux notendur þurfa ekki að hafa áhyggjur af þessu.</p>
+<div class="quarto-figure quarto-figure-center page-columns page-full">
+<figure class="figure page-columns page-full">
+<p><img src="https://edbook.hi.is/R_fra_grunni/_images/tikz2.svg" class="img-fluid figure-img"></p>
+<figcaption class="margin-caption">Til að vinna í R opnum við forritið RStudio. RStudio keyrir R fyrir okkur og við þurfum að gæta þess að vera búin að hlaða R niður en við opnum R ekki sérstaklega.</figcaption>
+</figure>
+</div>
+<p>Í RStudio er viðmótinu skipt upp í fjóra glugga, eins og sjá má á myndinni hér fyrir ofan. Neðri vinstri glugginn er <em>keyrsluglugginn</em>, þar höfum við samskipti við R með því að slá inn skipanir. Þetta er staðurinn þar sem við búum til hluti og þar sem R sýnir okkur útkomur skipana þegar við biðjum um þær. Hér búum við til allt í verkfærakassanum okkar.</p>
+<p>Efri vinstri glugginn er skipanaglugginn. Þar geymum við allar þær skipanir sem við mötum inn í keyrslugluggann. Í þessum glugga er ekkert framkvæmt, heldur skrifum við niður uppskriftir af hlutunum sem við búum til. Byrjendum finnst oft gott að prófa sig fyrst áfram í keyrsluglugganum og færa svo þær skipanir „sem virkuðu“ yfir í skipanagluggann. Þegar meiri færni er náð verður betra að vinna alfarið í skipanaglugganum og hlaða síðan skipununum inn í keyrslugluggann þegar við viljum sjá útkomur þeirra.</p>
+<p>Skipanirnar sem við geymum í skipanaglugganum vistum við í sérstaka skrá, sem við köllum skipanaskrá. Skipanaskrá er alltaf lesin frá efstu línu og niður svo við þurfum að gæta þess að skrá þær skipanir sem við viljum framkvæma í réttri röð. Það að breyta hlut neðarlega í skipanaskrá hefur engin áhrif á þann hlut ofar í skránni. Á meðan við skráum alla þá úrvinnslu sem við viljum framkvæma í skipanaskránni þurfum við ekki að hafa nokkrar áhyggjur af því þó við framkvæmum mistök og eyðum út eða eyðileggjum hluti sem við vorum búin að búa til. Við lagfærum bara þá línu þar sem mistökin voru og keyrum allar skipanirnar aftur, frá efstu línu og niðurúr. Yfirleitt tekur það einungis örskotsstund.</p>
+<p>Auðvelt er að senda línur úr skipanaskránni okkar í keyrslugluggann. Við staðsetjum bendilinn í þeirri línu sem við viljum flytja, höldum svo niðri ⌘ + ⏎ á MacOs en Ctrl + ⏎ á Windows/linux. Þá afritast viðkomandi lína yfir í keyrslugluggann og skipunin er framkvæmd. Einnig er hægt að keyra alla skipanaskrána með því að smella á „source“ hnappinn efst í hægra horninu á skipanaglugganum.</p>
+<p>Þið vitið eflaust að mismunandi tegundir af skrám hafa mismunandi endingar. Þannig er algengt að Word skrár hafi endinguna .docx og að Excel skrár hafi endinguna .xlsx. Skipanaskrár unnar í R hafa endinguna .R.</p>
+<p>Í efri hægri glugganum eru tveir flipar. Í öðrum flipanum sjáum við vinnusvæðið okkar. Það eru allir þeir hluti sem búnir hafa verið til í vinnulotunni, hvort sem það eru gögn sem hafa verið lesið inn eða tölfræðilíkön sem hafa verið vistuð. Þetta er með öðrum orðum allt það sem við erum búin að búa til í verkfærakassanum okkar. Í hinum glugganum má sjá skipanasöguna okkar, þ.e. lista yfir þær skipanir sem keyrðar hafa verið í vinnulotunni.</p>
+<p>Í efri hægri glugganum eru tveir flipar.</p>
+<div class="quarto-figure quarto-figure-center page-columns page-full">
+<figure class="figure page-columns page-full">
+<p><img src="https://edbook.hi.is/R_fra_grunni/_images/env.png" class="img-fluid figure-img"></p>
+<figcaption class="margin-caption">Í öðrum flipanum sjáum við vinnusvæðið okkar. Það eru allir þeir hluti sem búnir hafa verið til í vinnulotunni, hvort sem það eru gögn sem hafa verið lesið inn eða tölfræðilíkön sem hafa verið vistuð. Þetta er með öðrum orðum allt það sem við erum búin að búa til í verkfærakassanum okkar.</figcaption>
+</figure>
+</div>
+<div class="quarto-figure quarto-figure-center page-columns page-full">
+<figure class="figure page-columns page-full">
+<p><img src="https://edbook.hi.is/R_fra_grunni/_images/hist.png" class="img-fluid figure-img"></p>
+<figcaption class="margin-caption">Í hinum glugganum má sjá skipanasöguna okkar, þ.e. lista yfir þær skipanir sem keyrðar hafa verið í vinnulotunni.</figcaption>
+</figure>
+</div>
+<p>Í neðri glugganum hægra meginn eru fimm flipar. Þar sjáum við myndir sem teiknaðar eru í R og hjálpina sem hægt er að kalla á fyrir R-skipanir.</p>
+<div class="quarto-figure quarto-figure-center page-columns page-full">
+<figure class="figure page-columns page-full">
+<p><img src="https://edbook.hi.is/R_fra_grunni/_images/help.png" class="img-fluid figure-img"></p>
+<figcaption class="margin-caption">Hægt er að leita í hjálpinni með því að slá inn leitarorð í leitargluggann í horninu hægra meginn, en nánar verður fjallað um hjálpina í R síðar í kaflanum.</figcaption>
+</figure>
+</div>
+<div class="quarto-figure quarto-figure-center page-columns page-full">
+<figure class="figure page-columns page-full">
+<p><img src="https://edbook.hi.is/R_fra_grunni/_images/plot.png" class="img-fluid figure-img"></p>
+<figcaption class="margin-caption">Myndir birtast í flipanum <code>Plots</code></figcaption>
+</figure>
+</div>
+<p>Það fyrsta sem við gerum þegar við opnum RStudio er að staðsetja okkur í réttri möppu, þ.e.a.s. vinnumöppunni okkar. Við staðsetjum okkur í réttri möppu með því að velja <code>Session → Set Working Directory → Choose Directory</code> og velja þar möppuna.</p>
+<div class="quarto-figure quarto-figure-center page-columns page-full">
+<figure class="figure page-columns page-full">
+<p><img src="https://edbook.hi.is/R_fra_grunni/_images/files.png" class="img-fluid figure-img"></p>
+<figcaption class="margin-caption">Rstudio sýnir okkur þá innhald möppunnar í úttaksglugganum undir <code>Files</code>.</figcaption>
+</figure>
+</div>
+<p>Þegar RStudio er ræst í fyrsta skipti þarf að opna sérstaklega skipanaglugga með því að fara í <code>File → New Document→ R script</code>. Þá birtist skipanagluggi á skjánum. Viljum við koma aftur að skipanaskrá sem viðhöfum áður unnið með förum við í <code>Open</code> í stað <code>New Document</code>.</p>
+<section id="verlefnautanumhald-í-rstudio" class="level3 page-columns page-full">
+<h3 class="anchored" data-anchor-id="verlefnautanumhald-í-rstudio">Verlefnautanumhald í Rstudio</h3>
+<p>Þegar unnið er að fleiri en tveim úrvinnslum í einu og/eða við viljum koma að sömu úrvinnslu síðar meir getur Rstudio auðveldað okkur lífið enn frekar með því að skilgreina verkefni. Verkefni eru sérstakar skrár með endingunni „.Rproj“. Þær halda utan um vinnumöppu notandans, tryggja að ný (og hrein) vinnulota er ræst (þ.a. niðurstöður annarra reikninga trufli ekki þá sem notandinn vill vinna með) og opnar þær skrár sem notandinn var að vinna með seinast. Hægt er að hafa sértækar stillingar fyrir sérhvert verkefni sem og að hafa mörg verkefni opin í einu, eitt í hverjum glugga. Nýtt verkefni er stofnað með því að velja <code>File → New project</code> og svo í framhaldinu velja viðeigandi hluti í valglugga sem þá birtist:</p>
+<div class="quarto-figure quarto-figure-center page-columns page-full">
+<figure class="figure page-columns page-full">
+<p><img src="https://edbook.hi.is/R_fra_grunni/_images/project1.png" class="img-fluid figure-img"></p>
+<figcaption class="margin-caption">Hér hefur notandinn möguleika á því að tengja verkefni við þrjár gerðir af vinnumöppum: A) nýja vinnumöppu, B) tengja við vinnumöppu sem er til og geymir gagnasett, og C) vinnumöppur sem tengjast skjalastjórnunarkerfunum git og svn.</figcaption>
+</figure>
+</div>
+<div class="quarto-figure quarto-figure-center page-columns page-full">
+<figure class="figure page-columns page-full">
+<p><img src="https://edbook.hi.is/R_fra_grunni/_images/project2.png" class="img-fluid figure-img"></p>
+<figcaption class="margin-caption">Sé ný vinnumappa valin þá fær notandinn val um skilgreina verkefnið betur svo að Rstudio geti sett verkefnið rétt upp</figcaption>
+</figure>
+</div>
+<p>Lesendur þessarar bókar munu að öllum líkindum velja fyrst um sinn tómt verkefni (e. empty project). Hinir tveir valmöguleikarnir bjóða upp á stillingar fyrir pakkasmíði og gagnvirkt vefviðmót fyrir R-forrit.</p>
+<div class="quarto-figure quarto-figure-center page-columns page-full">
+<figure class="figure page-columns page-full">
+<p><img src="https://edbook.hi.is/R_fra_grunni/_images/project3.png" class="img-fluid figure-img"></p>
+<figcaption class="margin-caption">Sé tómt verkefni valið er notandinn beðinn um að finna stað fyrir verkefnið.</figcaption>
+</figure>
+</div>
+<p>Rstudio býr þá til nýtt verkefni á þeim stað. Þá verður til skrá með endinguna <code>.Rproj</code>, sé smellt á hana opnast R, með vinnumöppuna sem við tilgreindum í vinnulotunni og opnar þær skipanaskrár sem síðast voru opnar þegar við unnum í verkefninu.</p>
+</section>
+<section id="slökkt-á-rstudio" class="level3 page-columns page-full">
+<h3 class="anchored" data-anchor-id="slökkt-á-rstudio">Slökkt á Rstudio</h3>
+<p>Þegar slökkt er á Rstudio er notandinn spurður um óvistaðar skrár:</p>
+<div class="quarto-figure quarto-figure-center page-columns page-full">
+<figure class="figure page-columns page-full">
+<p><img src="https://edbook.hi.is/R_fra_grunni/_images/shutdown.png" class="img-fluid figure-img"></p>
+<figcaption class="margin-caption">Hér hefur notandinn ekki vistað skránna „analysis.R“, sem líkast til er æskilegt að gera. Hin skráin „Workspace image (.RData)“ geymir þá hluti sem eru til í vinnulotunni hjá notandanum. Mörgum þykir þægilegt að geyma vinnusvæðið milli vinnulota, sérstaklega ef þungir útreikningar liggja að baki þeirra. Hafa skal þó í huga að hlutir úr geymdu vinnusvæði geta truflað úrvinnslu og því er æskilegt að geyma ekki vinnusvæðið milli vinnulota. Einnig er það ekki æskilegt vegna rekjanleika, betra er að allir hlutir séu skilgreindar í skipanaskrá sem er svo keyrð þegar þarf</figcaption>
+</figure>
+</div>
+</section>
+</section>
+</section>
+<section id="aðferðirskipanirföll" class="level1">
+<h1>Aðferðir/skipanir/föll</h1>
+<section id="aðferðirskipanirföll-1" class="level2">
+<h2 class="anchored" data-anchor-id="aðferðirskipanirföll-1">Aðferðir/skipanir/föll</h2>
+<section id="help" class="level3">
+<h3 class="anchored" data-anchor-id="help">help()</h3>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Athugið
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><strong>Inntak:</strong> Nafn á falli</p>
+<p><strong>Úttak:</strong> Kallar fram hjálparsíðuna fyrir fallið</p>
+<p><strong>Helstu stillingar:</strong> package, help_type</p>
+</div>
+</div>
+<p>R hefur, eins og áður sagði, fjölda innbyggðra falla sem auðvelda notandanum að vinna með gögn auk þess sem auðvelt er fyrir notandann að smíða sín eigin föll. Til þess að fá yfirsýn yfir þessi innbyggðu föll hefur R innbyggða hjálp sem gefur okkur nánari upplýsingar um þá skipun/aðferð/fall sem við viljum fræðast meira um. Þannig gefur skipunin</p>
+<div id="qwebr-interactive-area-2" class="qwebr-interactive-area">
+  <button class="btn btn-default qwebr-button-run" disabled="" type="button" id="qwebr-button-run-2">🟡 Loading
+    webR...</button>
+  <div id="qwebr-console-area-2" class="qwebr-console-area">
+    <div id="qwebr-editor-2" class="qwebr-editor"></div>
+    <div id="qwebr-output-code-area-2" class="qwebr-output-code-area" aria-live="assertive">
+      <pre style="visibility: hidden"></pre>
+    </div>
+  </div>
+  <div id="qwebr-output-graph-area-2" class="qwebr-output-graph-area">
+  </div>
+</div>
+<script type="module">
+  // Retrieve webR code cell information
+  const runButton = document.getElementById("qwebr-button-run-2");
+  const outputCodeDiv = document.getElementById("qwebr-output-code-area-2");
+  const editorDiv = document.getElementById("qwebr-editor-2");
+  const outputGraphDiv = document.getElementById("qwebr-output-graph-area-2");
+
+  // Load the Monaco Editor and create an instance
+  let editor;
+  require(['vs/editor/editor.main'], function () {
+    editor = monaco.editor.create(editorDiv, {
+      value: `help(read.table)`,
+      language: 'r',
+      theme: 'vs-light',
+      automaticLayout: true,           // TODO: Could be problematic for slide decks
+      scrollBeyondLastLine: false,
+      minimap: {
+        enabled: false
+      },
+      fontSize: '17.5pt',               // Bootstrap is 1 rem
+      renderLineHighlight: "none",     // Disable current line highlighting
+      hideCursorInOverviewRuler: true  // Remove cursor indictor in right hand side scroll bar
+    });
+
+    // Dynamically modify the height of the editor window if new lines are added.
+    let ignoreEvent = false;
+    const updateHeight = () => {
+      const contentHeight = editor.getContentHeight();
+      // We're avoiding a width change
+      //editorDiv.style.width = `${width}px`;
+      editorDiv.style.height = `${contentHeight}px`;
+      try {
+        ignoreEvent = true;
+
+        // The key to resizing is this call
+        editor.layout();
+      } finally {
+        ignoreEvent = false;
+      }
+    };
+
+    // Helper function to check if selected text is empty
+    function isEmptyCodeText(selectedCodeText) {
+      return (selectedCodeText === null || selectedCodeText === undefined || selectedCodeText === "");
+    }
+
+    // Registry of keyboard shortcuts that should be re-added to each editor window
+    // when focus changes.
+    const addWebRKeyboardShortCutCommands = () => {
+      // Add a keydown event listener for Shift+Enter to run all code in cell
+      editor.addCommand(monaco.KeyMod.Shift | monaco.KeyCode.Enter, () => {
+
+        // Retrieve all text inside the editor
+        executeCode(editor.getValue());
+      });
+
+      // Add a keydown event listener for CMD/Ctrl+Enter to run selected code
+      editor.addCommand(monaco.KeyMod.CtrlCmd | monaco.KeyCode.Enter, () => {
+
+        // Get the selected text from the editor
+        const selectedText = editor.getModel().getValueInRange(editor.getSelection());
+        // Check if no code is selected
+        if (isEmptyCodeText(selectedText)) {
+          // Obtain the current cursor position
+          let currentPosition = editor.getPosition();
+          // Retrieve the current line content
+          let currentLine = editor.getModel().getLineContent(currentPosition.lineNumber);
+
+          // Propose a new position to move the cursor to
+          let newPosition = new monaco.Position(currentPosition.lineNumber + 1, 1);
+
+          // Check if the new position is beyond the last line of the editor
+          if (newPosition.lineNumber > editor.getModel().getLineCount()) {
+            // Add a new line at the end of the editor
+            editor.executeEdits("addNewLine", [{
+            range: new monaco.Range(newPosition.lineNumber, 1, newPosition.lineNumber, 1),
+            text: "\n", 
+            forceMoveMarkers: true,
+            }]);
+          }
+          
+          // Run the entire line of code.
+          executeCode(currentLine);
+
+          // Move cursor to new position
+          editor.setPosition(newPosition);
+        } else {
+          // Code to run when Ctrl+Enter is pressed with selected code
+          executeCode(selectedText);
+        }
+      });
+    }
+
+    // Register an on focus event handler for when a code cell is selected to update
+    // what keyboard shortcut commands should work.
+    // This is a workaround to fix a regression that happened with multiple
+    // editor windows since Monaco 0.32.0 
+    // https://github.com/microsoft/monaco-editor/issues/2947
+    editor.onDidFocusEditorText(addWebRKeyboardShortCutCommands);
+
+    // Register an on change event for when new code is added to the editor window
+    editor.onDidContentSizeChange(updateHeight);
+
+    // Manually re-update height to account for the content we inserted into the call
+    updateHeight();
+  });
+
+  // Function to execute the code (accepts code as an argument)
+  async function executeCode(codeToRun) {
+
+    // Disallowing execution of other code cells
+    document.querySelectorAll(".qwebr-button-run").forEach((btn) => {
+      btn.disabled = true;
+    });
+
+    // Emphasize the active code cell
+    runButton.innerHTML = '<i class="fa-solid fa-spinner fa-spin qwebr-icon-status-spinner"></i> <span>Run Code</span>';
+
+    // Create a canvas variable for graphics
+    let canvas = undefined;
+
+    // Create a pager variable for help/file contents
+    let pager = [];
+
+    // Process 
+    async function parseTypePager(msg) { 
+
+        // Split out the event data
+        const { path, title, deleteFile } = msg.data; 
+
+        // Process the pager data by reading the information from disk
+        const paged_data = await webR.FS.readFile(path).then((data) => {
+          // Obtain the file content
+          let content = new TextDecoder().decode(data);
+
+          // Remove excessive backspace characters until none remain
+          while(content.match(/.[\b]/)){
+            content = content.replace(/.[\b]/g, '');
+          }
+
+          // Returned cleaned data
+          return content;
+        });
+
+        // Unlink file if needed
+        if (deleteFile) { 
+          await webR.FS.unlink(path); 
+        } 
+
+        // Return extracted data with spaces
+        return paged_data;
+    } 
+
+    // Initialize webR
+    await webR.init();
+
+    // Setup a webR canvas by making a namespace call into the {webr} package
+    await webR.evalRVoid("webr::canvas(width=504, height=360)");
+
+    // Capture output data from evaluating the code
+    const result = await webRCodeShelter.captureR(codeToRun, {
+      withAutoprint: true,
+      captureStreams: true,
+      captureConditions: false//,
+      // env: webR.objs.emptyEnv, // maintain a global environment for webR v0.2.0
+    });
+
+    // Start attempting to parse the result data
+    try {
+
+      // Stop creating images
+      await webR.evalRVoid("dev.off()");
+
+      // Merge output streams of STDOUT and STDErr (messages and errors are combined.)
+      const out = result.output
+        .filter(evt => evt.type === "stdout" || evt.type === "stderr")
+        .map((evt, index) => {
+          const className = `qwebr-output-code-${evt.type}`;
+          return `<code id="${className}-editor-2-result-${index + 1}" class="${className}">${evt.data}</code>`;
+        })
+        .join("\n");
+
+
+      // Clean the state
+      const msgs = await webR.flush();
+
+      // Output each image event stored
+      msgs.forEach((msg) => {
+        // Determine if old canvas can be used or a new canvas is required.
+        if (msg.type === 'canvas'){
+          // Add image to the current canvas
+          if (msg.data.event === 'canvasImage') {
+            canvas.getContext('2d').drawImage(msg.data.image, 0, 0);
+          } else if (msg.data.event === 'canvasNewPage') {
+            // Generate a new canvas element
+            canvas = document.createElement("canvas");
+            canvas.setAttribute("width", 2 * 504);
+            canvas.setAttribute("height", 2 * 360);
+            canvas.style.width = "700px";
+            canvas.style.display = "block";
+            canvas.style.margin = "auto";
+          }
+        } 
+      });
+
+      // Use `map` to process the filtered "pager" events asynchronously
+      const pager = await Promise.all(
+        msgs.filter(msg => msg.type === 'pager').map(
+          async (msg) => {
+            return await parseTypePager(msg);
+          }
+        )
+      );
+
+      // Nullify the output area of content
+      outputCodeDiv.innerHTML = "";
+      outputGraphDiv.innerHTML = "";
+
+      // Design an output object for messages
+      const pre = document.createElement("pre");
+      if (/\S/.test(out)) {
+        // Display results as HTML elements to retain output styling
+        const div = document.createElement("div");
+        div.innerHTML = out;
+        pre.appendChild(div);
+      } else {
+        // If nothing is present, hide the element.
+        pre.style.visibility = "hidden";
+      }
+      outputCodeDiv.appendChild(pre);
+
+      // Place the graphics on the canvas
+      if (canvas) {
+        outputGraphDiv.appendChild(canvas);
+      }
+
+      // Display the pager data
+      if (pager) {
+        // Use the `pre` element to preserve whitespace.
+        pager.forEach((paged_data, index) => {
+          let pre_pager = document.createElement("pre");
+          pre_pager.innerText = paged_data;
+          pre_pager.classList.add("qwebr-output-code-pager");
+          pre_pager.setAttribute("id", "qwebr-output-code-pager-editor-2-result-" + (index + 1));
+          outputCodeDiv.appendChild(pre_pager);
+        });
+      }
+    } finally {
+      // Clean up the remaining code
+      webRCodeShelter.purge();
+    }
+
+    // Switch to allowing execution of code
+    document.querySelectorAll(".qwebr-button-run").forEach((btn) => {
+      btn.disabled = false;
+    });
+
+    // Revert to the initial code cell state
+    runButton.innerHTML = '<i class="fa-solid fa-play qwebr-icon-run-code"></i> <span>Run Code</span>';
+  }
+
+  // Add a click event listener to the run button
+  runButton.onclick = function () {
+    executeCode(editor.getValue());
+  };
+</script>
+<p>okkur nánari upplýsingar um skipunina <code>read.table()</code>. Nánari upplýsingar birtast þá í nýjum glugga á skjánum. Látið útlit hjálparinnar ekki fæla ykkur frá. Það er vissulega hrátt og gæti virst óskiljanlegt í fyrstu en læri maður að líta á úttakið réttum augum má finna þar miklar upplýsingar á fljótlegan hátt.</p>
+<p>Hjálpin í R fylgir eftirfarandi sniðmáti:</p>
+<ul>
+<li>Efst, undir <code>Description</code>:, kemur stutt lýsing á skipuninni.</li>
+<li>Þar á eftir kemur <code>Usage</code>: en þar sjást allar þær stillingar sem hægt er að gefa skipuninni. Yfirleitt eru flestar stillingarnar sjálfgefnar sem þýðir að ef við tilgreinum ekkert eru stillingarnar sjálfkrafa stilltar á algengustu gildin. Viljum við breyta einhverjum af stillingunum, þá tilgreinum við eingöngu þær stillingar sem við viljum breyta og hvaða gildi við viljum að séu á þeim stillingum.</li>
+<li>Næst er komið að <code>Arguments</code>:. Þar eru allar mögulegar stillingar sýndar, hvaða gildi er hægt að gefa þeim og hvaða áhrif það hefur.</li>
+<li><code>Details</code>: gefur ítarlega lýsingu á þeirri „vinnu“ sem skipunin framkvæmir.</li>
+<li><code>Value</code>: útskýrir hvers lags útkoma kemur út úr skipuninni.</li>
+<li>Undir <code>Note</code>: má finna ýmsar gagnlegar ábendingar.</li>
+<li>Í <code>References</code>: eru heimildir sem aðferðin byggir á.</li>
+<li>Oft reynast góðir molar í <code>See Also</code>:. Þar eru oft dæmi um aðrar skyldar aðferðir sem gætu reynst gagnlegar sem og heimasíður og fleira sem gæti komið að góðum notum.</li>
+<li>Að lokum má sjá dæmi um beitingu aðferðinnar í <code>Examples</code>:. Verið óspör að prófa þau dæmi til að kynnast aðferðinni betur.</li>
+</ul>
 
 
 </section>

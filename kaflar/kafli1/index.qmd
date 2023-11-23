@@ -46,3 +46,131 @@ Að því loknu taka við dæmi um beitingu aðferðarinnar í hvítum kössum:
 Allar skipanirnar byggja á aðgengilegum gögnum svo lesandinn getur hermt þær eftir á eigin tölvu til að dýpka skilninginn.
 
 Við gerum ráð fyrir að notandinn hafi bæði forritin R og RStudio uppsett. Hægt er að nálgast R af slóðinni [http://cran.hafro.is](http://cran.hafro.is) og RStudio af [https://posit.co/download/rstudio-desktop/](https://posit.co/download/rstudio-desktop/). Einnig má benda á að til eru fjölmörg kennslumyndbönd um notkun R en þau má finna á [http://kennslubanki.hi.is](http://kennslubanki.hi.is)
+
+# Hvernig virkar R?
+
+Fyrir þá sem ekki eru vanir því að forrita getur R virst framandi við fyrstu sýn. Þá getur verið gott að hugsa um R sem tóman verkfærakassa sem við munum síðar fylla af alls konar hlutum. Þessir hlutir geta verið af ýmsu tagi, allt frá gögnum til grafa, greininga og aðferða, svo dæmi séu nefnd.
+
+Í hvert sinn sem við komum að nýju verkefni er kassinn tómur. Síðan hefst vinnulotan okkar, þar sem við notum skipanir til að búa til nýja hluti í kassanum okkar. Í hvert sinn sem við framkvæmum skipun í R höfum við val um tvennt:
+
+* Að skipunin spýti hlutnum sem við bjuggum til á skjáinn okkar og eyði honum svo jafnóðum (hendi honum úr kassanum um leið).
+* Að skipunin visti hlutinn þannig að við getum nálgast hann aftur og unnið frekar með hann (geymi hann í kassanum).
+Í hluta 1.4 förum við nánar í það hvernig skipanir virka.
+
+R getur ekki vistað hluti nema þeir hafi eitthvað nafn. Það þýðir að allt í kassanum verður að hafa eitthvað heiti og gildir það jafnt um gögn sem aðferðir eða greiningar. Þegar við gefum hlut eitthvað heiti notum við ritháttinn:
+
+```{r}
+#| eval: false
+nafn <- skipun
+```
+
+þar sem í stað `nafn` kemur nafnið sem við viljum gefa hlutnum og í stað `skipun`kemur sú skipun sem býr til hlutinn. Táknin þar á milli eru „minna en merkið“ og bandstrik. Skipunin getur samanstaðið af mörgum orðum svigum og alls kyns táknum. Ef við hins vegar skrifum bara skipunina, án þess að vista hana undir nafni, prentar R út það sem skipunin gerir á skjáinn, án þess að vista nokkuð.
+
+Tveir ólíkir hlutir geta ekki haft sama nafnið. Ef við búum til hlut sem hefur sama nafn og hlutur sem við höfðum áður búið til þá hverfur gamli hluturinn og sá nýji kemur í hans stað. Í R er heldur enginn undo takki, þ.e.a.s. ekki er hægt að afturkalla skipanir með neinum hætti. Það þýðir að ef við höfum breytt einhverjum hlut er engin leið að afturkalla þá breytingu nema með því að búa hlutinn aftur til. Það er þó ekkert til að óttast svo framanlega sem við vöndum vinnulagið okkar í R. Það er umfjöllunarefni næsta hluta.
+
+
+# Vinnulag í R/Rstudio
+
+## Vinnulag í R/RStudio
+
+Í R er lítið um músasmelli heldur byggist úrvinnslan á því að gefa forritinu tilteknar skipanir sem það vinnur síðan úr. Það er hvort tveggja í senn, einn af stærstu kostum R en jafnframt sá eiginleiki sem fælir marga frá forritinu í upphafi.
+
+Stærsti kosturinn við að gefa skipanir er sá að við getum skrásett nákvæmlega allar aðgerðir okkar og því getum við ekki einungis nákvæmlega endurtekið alla úrvinnslu heldur gert það með lítilli fyrirhöfn. Því margborgar sig að venja sig á skilvirkt vinnulag frá fyrsta degi þegar unnið er í R. Helsti gallinn við að gefa skipanir er sá að nöfnin á skipununum standa ekki á skjánum fyrir framan okkur heldur þurfum við að muna þær eða kunna að leita að þeim, en við munum koma að þessu síðar.
+
+Afar mikilvægt atriði í góðu vinnulagi í R er að útbúa sérstaka möppu á tölvunni fyrir sérhvert verkefni, þar sem skipanaskrár, gagnasöfn og annað sem kemur að vinnslu í R eru geymd. Þessa mappa er kölluð vinnumappa.
+
+Windows notendur þurfa að passa sig að nota ekki íslenska stafi né bil í heitinu á möppunni né geyma möppuna í möppum sem inniheldur íslenska stafi eða bil. Það er því ekki hægt að geyma möppuna í:
+
+`C\:kalli\My Documents\tolfraedi\Rverkefni`
+
+þar sem það er bil í `My documents`. Makka og Linux notendur þurfa ekki að hafa áhyggjur af þessu.
+
+![Til að vinna í R opnum við forritið RStudio. RStudio keyrir R fyrir okkur og við þurfum að gæta þess að vera búin að hlaða R niður en við opnum R ekki sérstaklega.](https://edbook.hi.is/R_fra_grunni/_images/tikz2.svg){.fig-cap-location-margin}
+
+Í RStudio er viðmótinu skipt upp í fjóra glugga, eins og sjá má á myndinni hér fyrir ofan. Neðri vinstri glugginn er *keyrsluglugginn*, þar höfum við samskipti við R með því að slá inn skipanir. Þetta er staðurinn þar sem við búum til hluti og þar sem R sýnir okkur útkomur skipana þegar við biðjum um þær. Hér búum við til allt í verkfærakassanum okkar.
+
+Efri vinstri glugginn er skipanaglugginn. Þar geymum við allar þær skipanir sem við mötum inn í keyrslugluggann. Í þessum glugga er ekkert framkvæmt, heldur skrifum við niður uppskriftir af hlutunum sem við búum til. Byrjendum finnst oft gott að prófa sig fyrst áfram í keyrsluglugganum og færa svo þær skipanir „sem virkuðu“ yfir í skipanagluggann. Þegar meiri færni er náð verður betra að vinna alfarið í skipanaglugganum og hlaða síðan skipununum inn í keyrslugluggann þegar við viljum sjá útkomur þeirra.
+
+Skipanirnar sem við geymum í skipanaglugganum vistum við í sérstaka skrá, sem við köllum skipanaskrá. Skipanaskrá er alltaf lesin frá efstu línu og niður svo við þurfum að gæta þess að skrá þær skipanir sem við viljum framkvæma í réttri röð. Það að breyta hlut neðarlega í skipanaskrá hefur engin áhrif á þann hlut ofar í skránni. Á meðan við skráum alla þá úrvinnslu sem við viljum framkvæma í skipanaskránni þurfum við ekki að hafa nokkrar áhyggjur af því þó við framkvæmum mistök og eyðum út eða eyðileggjum hluti sem við vorum búin að búa til. Við lagfærum bara þá línu þar sem mistökin voru og keyrum allar skipanirnar aftur, frá efstu línu og niðurúr. Yfirleitt tekur það einungis örskotsstund.
+
+Auðvelt er að senda línur úr skipanaskránni okkar í keyrslugluggann. Við staðsetjum bendilinn í þeirri línu sem við viljum flytja, höldum svo niðri ⌘ + ⏎ á MacOs en Ctrl + ⏎ á Windows/linux. Þá afritast viðkomandi lína yfir í keyrslugluggann og skipunin er framkvæmd. Einnig er hægt að keyra alla skipanaskrána með því að smella á „source“ hnappinn efst í hægra horninu á skipanaglugganum.
+
+
+Þið vitið eflaust að mismunandi tegundir af skrám hafa mismunandi endingar. Þannig er algengt að Word skrár hafi endinguna .docx og að Excel skrár hafi endinguna .xlsx. Skipanaskrár unnar í R hafa endinguna .R.
+
+Í efri hægri glugganum eru tveir flipar. Í öðrum flipanum sjáum við vinnusvæðið okkar. Það eru allir þeir hluti sem búnir hafa verið til í vinnulotunni, hvort sem það eru gögn sem hafa verið lesið inn eða tölfræðilíkön sem hafa verið vistuð. Þetta er með öðrum orðum allt það sem við erum búin að búa til í verkfærakassanum okkar. Í hinum glugganum má sjá skipanasöguna okkar, þ.e. lista yfir þær skipanir sem keyrðar hafa verið í vinnulotunni.
+
+Í efri hægri glugganum eru tveir flipar. 
+
+![Í öðrum flipanum sjáum við vinnusvæðið okkar. Það eru allir þeir hluti sem búnir hafa verið til í vinnulotunni, hvort sem það eru gögn sem hafa verið lesið inn eða tölfræðilíkön sem hafa verið vistuð. Þetta er með öðrum orðum allt það sem við erum búin að búa til í verkfærakassanum okkar.](https://edbook.hi.is/R_fra_grunni/_images/env.png){.fig-cap-location-margin}
+
+![Í hinum glugganum má sjá skipanasöguna okkar, þ.e. lista yfir þær skipanir sem keyrðar hafa verið í vinnulotunni.](https://edbook.hi.is/R_fra_grunni/_images/hist.png){.fig-cap-location-margin}
+
+Í neðri glugganum hægra meginn eru fimm flipar. Þar sjáum við myndir sem teiknaðar eru í R og hjálpina sem hægt er að kalla á fyrir R-skipanir. 
+
+![Hægt er að leita í hjálpinni með því að slá inn leitarorð í leitargluggann í horninu hægra meginn, en nánar verður fjallað um hjálpina í R síðar í kaflanum.](https://edbook.hi.is/R_fra_grunni/_images/help.png){.fig-cap-location-margin}
+
+![Myndir birtast í flipanum `Plots`](https://edbook.hi.is/R_fra_grunni/_images/plot.png){.fig-cap-location-margin}
+
+Það fyrsta sem við gerum þegar við opnum RStudio er að staðsetja okkur í réttri möppu, þ.e.a.s. vinnumöppunni okkar. Við staðsetjum okkur í réttri möppu með því að velja `Session → Set Working Directory → Choose Directory` og velja þar möppuna.
+
+![ Rstudio sýnir okkur þá innhald möppunnar í úttaksglugganum undir `Files`.](https://edbook.hi.is/R_fra_grunni/_images/files.png){.fig-cap-location-margin}
+
+Þegar RStudio er ræst í fyrsta skipti þarf að opna sérstaklega skipanaglugga með því að fara í `File → New Document→ R script`. Þá birtist skipanagluggi á skjánum. Viljum við koma aftur að skipanaskrá sem viðhöfum áður unnið með förum við í `Open` í stað `New Document`.
+
+### Verlefnautanumhald í Rstudio
+
+Þegar unnið er að fleiri en tveim úrvinnslum í einu og/eða við viljum koma að sömu úrvinnslu síðar meir getur Rstudio auðveldað okkur lífið enn frekar með því að skilgreina verkefni. Verkefni eru sérstakar skrár með endingunni „.Rproj“. Þær halda utan um vinnumöppu notandans, tryggja að ný (og hrein) vinnulota er ræst (þ.a. niðurstöður annarra reikninga trufli ekki þá sem notandinn vill vinna með) og opnar þær skrár sem notandinn var að vinna með seinast. Hægt er að hafa sértækar stillingar fyrir sérhvert verkefni sem og að hafa mörg verkefni opin í einu, eitt í hverjum glugga. Nýtt verkefni er stofnað með því að velja `File → New project` og svo í framhaldinu velja viðeigandi hluti í valglugga sem þá birtist:
+
+![Hér hefur notandinn möguleika á því að tengja verkefni við þrjár gerðir af vinnumöppum: A) nýja vinnumöppu, B) tengja við vinnumöppu sem er til og geymir gagnasett, og C) vinnumöppur sem tengjast skjalastjórnunarkerfunum git og svn.](https://edbook.hi.is/R_fra_grunni/_images/project1.png){.fig-cap-location-margin}
+
+![Sé ný vinnumappa valin þá fær notandinn val um skilgreina verkefnið betur svo að Rstudio geti sett verkefnið rétt upp](https://edbook.hi.is/R_fra_grunni/_images/project2.png){.fig-cap-location-margin}
+
+Lesendur þessarar bókar munu að öllum líkindum velja fyrst um sinn tómt verkefni (e. empty project). Hinir tveir valmöguleikarnir bjóða upp á stillingar fyrir pakkasmíði og gagnvirkt vefviðmót fyrir R-forrit.
+
+![Sé tómt verkefni valið er notandinn beðinn um að finna stað fyrir verkefnið.](https://edbook.hi.is/R_fra_grunni/_images/project3.png){.fig-cap-location-margin}
+
+Rstudio býr þá til nýtt verkefni á þeim stað. Þá verður til skrá með endinguna `.Rproj`, sé smellt á hana opnast R, með vinnumöppuna sem við tilgreindum í vinnulotunni og opnar þær skipanaskrár sem síðast voru opnar þegar við unnum í verkefninu.
+
+### Slökkt á Rstudio
+
+Þegar slökkt er á Rstudio er notandinn spurður um óvistaðar skrár:
+
+![Hér hefur notandinn ekki vistað skránna „analysis.R“, sem líkast til er æskilegt að gera. Hin skráin „Workspace image (.RData)“ geymir þá hluti sem eru til í vinnulotunni hjá notandanum. Mörgum þykir þægilegt að geyma vinnusvæðið milli vinnulota, sérstaklega ef þungir útreikningar liggja að baki þeirra. Hafa skal þó í huga að hlutir úr geymdu vinnusvæði geta truflað úrvinnslu og því er æskilegt að geyma ekki vinnusvæðið milli vinnulota. Einnig er það ekki æskilegt vegna rekjanleika, betra er að allir hlutir séu skilgreindar í skipanaskrá sem er svo keyrð þegar þarf](https://edbook.hi.is/R_fra_grunni/_images/shutdown.png){.fig-cap-location-margin}
+
+# Aðferðir/skipanir/föll
+
+## Aðferðir/skipanir/föll
+
+### help()
+
+::: {.callout-note}
+## Athugið
+
+**Inntak:** Nafn á falli  
+
+**Úttak:** Kallar fram hjálparsíðuna fyrir fallið
+
+**Helstu stillingar:** package, help_type
+:::
+
+
+R hefur, eins og áður sagði, fjölda innbyggðra falla sem auðvelda notandanum að vinna með gögn auk þess sem auðvelt er fyrir notandann að smíða sín eigin föll. Til þess að fá yfirsýn yfir þessi innbyggðu föll hefur R innbyggða hjálp sem gefur okkur nánari upplýsingar um þá skipun/aðferð/fall sem við viljum fræðast meira um. Þannig gefur skipunin
+
+```{webr-r}
+help(read.table)
+```
+
+okkur nánari upplýsingar um skipunina `read.table()`. Nánari upplýsingar birtast þá í nýjum glugga á skjánum. Látið útlit hjálparinnar ekki fæla ykkur frá. Það er vissulega hrátt og gæti virst óskiljanlegt í fyrstu en læri maður að líta á úttakið réttum augum má finna þar miklar upplýsingar á fljótlegan hátt. 
+
+Hjálpin í R fylgir eftirfarandi sniðmáti:
+
+* Efst, undir `Description`:, kemur stutt lýsing á skipuninni.
+* Þar á eftir kemur `Usage`: en þar sjást allar þær stillingar sem hægt er að gefa skipuninni. Yfirleitt eru flestar stillingarnar sjálfgefnar sem þýðir að ef við tilgreinum ekkert eru stillingarnar sjálfkrafa stilltar á algengustu gildin. Viljum við breyta einhverjum af stillingunum, þá tilgreinum við eingöngu þær stillingar sem við viljum breyta og hvaða gildi við viljum að séu á þeim stillingum.
+* Næst er komið að `Arguments`:. Þar eru allar mögulegar stillingar sýndar, hvaða gildi er hægt að gefa þeim og hvaða áhrif það hefur.
+* `Details`: gefur ítarlega lýsingu á þeirri „vinnu“ sem skipunin framkvæmir.
+* `Value`: útskýrir hvers lags útkoma kemur út úr skipuninni.
+* Undir `Note`: má finna ýmsar gagnlegar ábendingar.
+* Í `References`: eru heimildir sem aðferðin byggir á.
+* Oft reynast góðir molar í `See Also`:. Þar eru oft dæmi um aðrar skyldar aðferðir sem gætu reynst gagnlegar sem og heimasíður og fleira sem gæti komið að góðum notum.
+* Að lokum má sjá dæmi um beitingu aðferðinnar í `Examples`:. Verið óspör að prófa þau dæmi til að kynnast aðferðinni betur.
