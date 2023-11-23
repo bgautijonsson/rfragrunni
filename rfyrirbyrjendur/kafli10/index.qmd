@@ -1,11 +1,56 @@
 ---
 title: "Línuleg aðhvarfsgreining"
+webr:
+  packages: ['ggplot2']
 ---
 
-This is a Quarto website.
+Aðhvarfsgreining er notuð til að kanna samband milli einnar samfelldrar svarbreytu og einnar eða fleiri skýribreyta sem geta hvort sem heldur verið samfelldar eða strjálar. Í einfaldasta tilvikinu er eingöngu ein samfelld skýribreyta og er þá talað um einfalt línulegt aðhvarf. Því tilviki helgum við meginhluta kaflans en útfærslur með strjálli skýribreytu sem og fleiri en einni skýribreytu eru ræddar undir lok hans.
 
-To learn more about Quarto websites visit <https://quarto.org/docs/websites>.
+```{webr-r}
+#| context: setup
 
-```{r}
-1 + 1
+x <- rnorm(100)
+y <- rnorm(100, mean = 0.5 + x)
+
+teikna_linu <- function(a, b) {
+  preds <- a + x * b
+  errs <- y - preds
+  rmse <- sqrt(mean(errs^2))
+  out_string <- paste0(
+    "Meðaltal villunnar þinnar er: ",
+    round(rmse, digits = 2)
+  )
+  print(out_string)
+  
+  if ((a == 0.5) & (b == 1)) {
+    print("Rétt gildi á stikunum a og b!")
+  }
+  ggplot() +
+    geom_segment(
+      aes(x = x, xend = x, y = y, yend = a + b * x),
+      lty = 2,
+      alpha = 0.3,
+      linewidth = 0.3
+      ) +
+    geom_abline(intercept = a, slope = b) +
+    geom_point(aes(x = x, y = y), size = 3) +
+    theme_classic()
+}
 ```
+
+
+::: {.callout-tip}
+## Æfing
+
+Búðu til þína eigin línulega aðhvarfsgreiningu! Stilltu gildin á `a` og `b` að neðan til að lágmarka villuna (brotnar línur).
+
+```{webr-r}
+a <- 0
+b <- 0
+teikna_linu(a, b)
+```
+:::  
+
+
+
+Í kafla 10.1 kynntum við skipunina lm() sem metur einfalt línulegt aðhvarf og skoðum úttak hennar með summary(). Þar næst, í kafla 10.2, skoðum við hvernig skipunin confint() gefur okkur öryggisbil fyrir stuðla líkansins. Í kafla 10.3 könnum við mátgæði líkansins með fallinu resid() og í kafla 10.4 sjáum við hvernig framkvæma má spár með fallinu predict(). Að lokum fjallar kafli 10.5 um hvernig framkvæma má tilgátupróf fyrir fylgnistuðul með cor.test().

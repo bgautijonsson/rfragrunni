@@ -75,7 +75,27 @@ jolasveinar
 
 :::  
 
-Skipunin að neðanvelur fjögur ólík gildi úr vigrinum `jolasveinar` af handahófi, þ.e.a.s. velur fjóra ólíka jólasveina af handahófi. 
+Skipunin að neðan velur fjögur ólík gildi úr vigrinum `jolasveinar` af handahófi, þ.e.a.s. velur fjóra ólíka jólasveina af handahófi. 
+
+```{r}
+#| echo: false
+
+jolasveinar <- c(
+  "Stekkjastaur", 
+  "Giljagaur", 
+  "Stufur", 
+  "Thvorusleikir",
+  "Pottaskefill", 
+  "Askasleikir", 
+  "Hurdaskellir", 
+  "Skyrgamur", 
+  "Bjugnakraekir",
+  "Gluggagaegir", 
+  "Gattathefur", 
+  "Ketkrokur", 
+  "Kertasnikir"
+)
+```
 
 
 ```{r}
