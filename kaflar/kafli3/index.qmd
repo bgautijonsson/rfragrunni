@@ -66,10 +66,30 @@ ggplot(data = mtcars, aes(cyl)) +
 ::: {.callout-tip}
 ## Æfing
 
-Kláraðu kóðabútinn að neðan svo að teiknað verður stöplarit með breytunni `am` á x-ás
+Kláraðu kóðabútinn að neðan svo að teiknað verður stöplarit með breytunni `am`
 
 ```{webr-r}
 ggplot(data = mtcars, aes(x = _)) +
   geom_()
 ```
 :::
+
+### Stuðlarit
+
+Viðbótin `geom_histogram()` teiknar stuðlarit. Viljum við teikna stuðlarit af breytunni thyngd gerum við það með skipuninni:
+
+```{webr-r}
+ggplot(data = mtcars, aes(mpg)) +
+  geom_histogram()
+```
+
+::: {.callout-tip}
+## Æfing
+
+Kláraðu kóðabútinn að neðan svo að teiknað verður stuðlarit af breytunni `mpg` þar sem breidd súlnanna er 1.
+
+```{webr-r}
+ggplot(data = mtcars, aes(mpg)) +
+  geom_(binwidth = _)
+```
+:::  
